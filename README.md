@@ -9,13 +9,13 @@ A modern portfolio website showcasing UI/Engineering projects and traditional ar
 - **Headless CMS**: Manage content easily with Sanity
 - **Responsive Design**: Beautiful on all devices
 - **TypeScript**: Fully typed for better development experience
-- **Tailwind CSS**: Modern, utility-first styling
+- **Hybrid Styling**: Tailwind CSS + SCSS Modules for flexibility
 
 ## Tech Stack
 
 - **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS v4
+- **Styling**: Tailwind CSS v4 + SCSS Modules
 - **CMS**: Sanity
 - **Fonts**: Geist Sans & Geist Mono
 
@@ -76,6 +76,7 @@ Open [http://localhost:3000](http://localhost:3000) to view your portfolio.
 ## Documentation
 
 - **[SETUP.md](./SETUP.md)** - Complete setup and configuration guide
+- **[SCSS_MODULES_GUIDE.md](./SCSS_MODULES_GUIDE.md)** - How to use SCSS modules alongside Tailwind
 - **[Next.js Docs](https://nextjs.org/docs)** - Learn about Next.js
 - **[Sanity Docs](https://www.sanity.io/docs)** - Learn about Sanity CMS
 - **[Tailwind Docs](https://tailwindcss.com/docs)** - Learn about Tailwind CSS

@@ -15,7 +15,6 @@ export default defineType({
         },
       ],
       description: "Your biography in rich text format",
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "profileImage",

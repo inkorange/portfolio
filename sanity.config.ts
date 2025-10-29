@@ -13,7 +13,32 @@ export default defineConfig({
 
   basePath: "/studio", // Path where Studio will be available
 
-  plugins: [structureTool(), visionTool(), codeInput()],
+  plugins: [
+    structureTool({
+      structure: (S) =>
+        S.list()
+          .title("Content")
+          .items([
+            // About page singleton
+            S.listItem()
+              .title("About")
+              .child(
+                S.document()
+                  .schemaType("about")
+                  .documentId("about")
+                  .title("About Page")
+              ),
+            // Divider
+            S.divider(),
+            // Other document types
+            ...S.documentTypeListItems().filter(
+              (listItem) => !["about"].includes(listItem.getId() as string)
+            ),
+          ]),
+    }),
+    visionTool(),
+    codeInput(),
+  ],
 
   schema: {
     types: schemaTypes,

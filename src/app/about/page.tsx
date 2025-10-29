@@ -1,4 +1,7 @@
+import Image from "next/image";
 import { getAbout } from "@/lib/sanity/fetch";
+import { urlFor } from "@/lib/sanity/image";
+import PortableText from "@/components/ui/PortableText";
 
 export const metadata = {
   title: "About - Christopher West",
@@ -24,9 +27,27 @@ export default async function AboutPage() {
         </div>
       ) : (
         <div className="space-y-8">
-          <div className="prose dark:prose-invert max-w-none">
-            <p>Bio content will be rendered here from Sanity rich text.</p>
-          </div>
+          {/* Profile Image */}
+          {about.profileImage && (
+            <div className="flex justify-center">
+              <div className="relative h-48 w-48 overflow-hidden rounded-full">
+                <Image
+                  src={urlFor(about.profileImage).width(400).height(400).url()}
+                  alt={about.profileImage.alt || "Profile"}
+                  fill
+                  className="object-cover"
+                  sizes="192px"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Bio Content */}
+          {about.bio && (
+            <div className="prose prose-zinc dark:prose-invert max-w-none">
+              <PortableText value={about.bio} />
+            </div>
+          )}
 
           {about.skills && about.skills.length > 0 && (
             <div>

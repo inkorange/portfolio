@@ -159,7 +159,7 @@ export const homepageFeedQuery = groq`
 // About Query
 
 export const aboutQuery = groq`
-  *[_type == "about"][0] {
+  *[_type == "about"] | order(_updatedAt desc) [0] {
     _id,
     _type,
     bio,
