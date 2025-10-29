@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "🔍 Running TypeScript type check..."
+
+# Run TypeScript compiler in no-emit mode
+npx tsc --noEmit
+
+# Capture the exit code
+TS_EXIT_CODE=$?
+
+# If there are TypeScript errors, prevent the commit
+if [ $TS_EXIT_CODE -ne 0 ]; then
+  echo ""
+  echo "❌ TypeScript errors found. Please fix them before committing."
+  echo ""
+  exit 1
+fi
+
+echo "✅ TypeScript check passed!"
+exit 0

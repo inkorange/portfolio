@@ -2,6 +2,11 @@
 
 export type ProjectType = "UI" | "Art";
 
+export interface Slug {
+  current: string;
+  _type: "slug";
+}
+
 export interface ImageAsset {
   _key?: string;
   url: string;
@@ -15,7 +20,7 @@ export interface Project {
   _id: string;
   _type: "project";
   title: string;
-  slug: string;
+  slug: Slug;
   type: ProjectType;
   summary: string;
   description?: string; // Rich text content
@@ -33,7 +38,7 @@ export interface BlogPost {
   _id: string;
   _type: "blogPost";
   title: string;
-  slug: string;
+  slug: Slug;
   excerpt: string;
   content: string; // Rich text content
   coverImage?: ImageAsset;
