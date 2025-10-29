@@ -78,6 +78,30 @@ export const projectBySlugQuery = (slug: string) => groq`
   }
 `;
 
+export const nextProjectQuery = (publishedDate: string, type: string) => groq`
+  *[_type == "project" && type == "${type}" && publishedDate > "${publishedDate}"] | order(publishedDate asc) [0] {
+    _id,
+    title,
+    slug,
+    type,
+    "featuredImage": featuredImage {
+      ${imageFragment}
+    }
+  }
+`;
+
+export const previousProjectQuery = (publishedDate: string, type: string) => groq`
+  *[_type == "project" && type == "${type}" && publishedDate < "${publishedDate}"] | order(publishedDate desc) [0] {
+    _id,
+    title,
+    slug,
+    type,
+    "featuredImage": featuredImage {
+      ${imageFragment}
+    }
+  }
+`;
+
 // Blog Post Queries
 
 export const allBlogPostsQuery = groq`
@@ -95,6 +119,28 @@ export const featuredBlogPostsQuery = groq`
 export const blogPostBySlugQuery = (slug: string) => groq`
   *[_type == "blogPost" && slug.current == "${slug}"][0] {
     ${blogPostFields}
+  }
+`;
+
+export const nextBlogPostQuery = (publishedDate: string) => groq`
+  *[_type == "blogPost" && publishedDate > "${publishedDate}"] | order(publishedDate asc) [0] {
+    _id,
+    title,
+    slug,
+    "coverImage": coverImage {
+      ${imageFragment}
+    }
+  }
+`;
+
+export const previousBlogPostQuery = (publishedDate: string) => groq`
+  *[_type == "blogPost" && publishedDate < "${publishedDate}"] | order(publishedDate desc) [0] {
+    _id,
+    title,
+    slug,
+    "coverImage": coverImage {
+      ${imageFragment}
+    }
   }
 `;
 

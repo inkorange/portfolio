@@ -4,15 +4,19 @@ import {
   featuredProjectsQuery,
   projectsByTypeQuery,
   projectBySlugQuery,
+  nextProjectQuery,
+  previousProjectQuery,
   allBlogPostsQuery,
   featuredBlogPostsQuery,
   blogPostBySlugQuery,
+  nextBlogPostQuery,
+  previousBlogPostQuery,
   recentBlogPostsQuery,
   homepageFeedQuery,
   aboutQuery,
   allSlugsQuery,
 } from "./queries";
-import type { Project, BlogPost, About, ProjectType } from "../types";
+import type { Project, BlogPost, About, ProjectType, ImageAsset } from "../types";
 
 // Project fetching functions
 
@@ -56,6 +60,26 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
   }
 }
 
+export async function getNextProject(publishedDate: string, type: ProjectType): Promise<{ _id: string; title: string; slug: { current: string }; type: string; featuredImage?: ImageAsset } | null> {
+  if (!isSanityConfigured()) return null;
+  try {
+    return await client.fetch(nextProjectQuery(publishedDate, type), {}, { next: { revalidate: 60 } });
+  } catch (error) {
+    console.error(`Error fetching next project:`, error);
+    return null;
+  }
+}
+
+export async function getPreviousProject(publishedDate: string, type: ProjectType): Promise<{ _id: string; title: string; slug: { current: string }; type: string; featuredImage?: ImageAsset } | null> {
+  if (!isSanityConfigured()) return null;
+  try {
+    return await client.fetch(previousProjectQuery(publishedDate, type), {}, { next: { revalidate: 60 } });
+  } catch (error) {
+    console.error(`Error fetching previous project:`, error);
+    return null;
+  }
+}
+
 // Blog post fetching functions
 
 export async function getAllBlogPosts(): Promise<BlogPost[]> {
@@ -84,6 +108,26 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     return await client.fetch(blogPostBySlugQuery(slug), {}, { next: { revalidate: 60 } });
   } catch (error) {
     console.error(`Error fetching blog post ${slug}:`, error);
+    return null;
+  }
+}
+
+export async function getNextBlogPost(publishedDate: string): Promise<{ _id: string; title: string; slug: { current: string }; coverImage?: ImageAsset } | null> {
+  if (!isSanityConfigured()) return null;
+  try {
+    return await client.fetch(nextBlogPostQuery(publishedDate), {}, { next: { revalidate: 60 } });
+  } catch (error) {
+    console.error(`Error fetching next blog post:`, error);
+    return null;
+  }
+}
+
+export async function getPreviousBlogPost(publishedDate: string): Promise<{ _id: string; title: string; slug: { current: string }; coverImage?: ImageAsset } | null> {
+  if (!isSanityConfigured()) return null;
+  try {
+    return await client.fetch(previousBlogPostQuery(publishedDate), {}, { next: { revalidate: 60 } });
+  } catch (error) {
+    console.error(`Error fetching previous blog post:`, error);
     return null;
   }
 }

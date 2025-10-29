@@ -1,0 +1,34 @@
+.logoLink {
+  position: relative;
+  z-index: 10;
+  display: block;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.logoContainer {
+  position: relative;
+  height: 80px; // Allow logo to extend beyond navbar height on mobile
+  display: flex;
+  align-items: center;
+
+  @media (min-width: 768px) {
+    height: 104px; // 30% larger on desktop
+  }
+}
+
+.logo {
+  object-fit: contain;
+  // Allow logo to break out from bottom of navbar
+  position: relative;
+  top: 8px; // Push logo down slightly to break navbar boundary
+  width: 120px; // Mobile size
+  height: auto;
+
+  @media (min-width: 768px) {
+    width: 156px; // 30% larger on desktop (120 * 1.3)
+  }
+}

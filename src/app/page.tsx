@@ -10,78 +10,26 @@ export default async function Home() {
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       {/* Hero Section */}
       <div className="mb-16 text-center">
-        <h1 className="text-5xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-6xl">
-          Christopher West
+        <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl lg:text-6xl">
+          Engineering and Art Portfolio
         </h1>
         <p className="mt-6 text-xl text-zinc-600 dark:text-zinc-400">
-          Engineering & Traditional Art Portfolio
+          from the mind of Chris West
         </p>
       </div>
 
-      {/* Getting Started Message */}
-      {(!feed?.featured || feed.featured.length === 0) && (
-        <div className="mb-16 rounded-lg border-2 border-dashed border-zinc-300 bg-zinc-50 p-12 text-center dark:border-zinc-700 dark:bg-zinc-900">
-          <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">
-            Welcome to Your Portfolio!
-          </h2>
-          <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
-            Your portfolio is set up and ready. Follow these steps to get started:
-          </p>
-          <ol className="mt-6 space-y-3 text-left max-w-2xl mx-auto">
-            <li className="flex gap-3">
-              <span className="font-semibold text-zinc-900 dark:text-zinc-50">1.</span>
-              <span className="text-zinc-600 dark:text-zinc-400">
-                Create a Sanity project at{" "}
-                <a
-                  href="https://www.sanity.io"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-zinc-900 underline dark:text-zinc-50"
-                >
-                  sanity.io
-                </a>
-              </span>
-            </li>
-            <li className="flex gap-3">
-              <span className="font-semibold text-zinc-900 dark:text-zinc-50">2.</span>
-              <span className="text-zinc-600 dark:text-zinc-400">
-                Configure your environment variables in <code className="rounded bg-zinc-200 px-2 py-1 dark:bg-zinc-800">.env.local</code>
-              </span>
-            </li>
-            <li className="flex gap-3">
-              <span className="font-semibold text-zinc-900 dark:text-zinc-50">3.</span>
-              <span className="text-zinc-600 dark:text-zinc-400">
-                Set up Sanity Studio and start adding content
-              </span>
-            </li>
-          </ol>
-          <div className="mt-8">
-            <a
-              href="https://github.com/christopher-west/portfolio/blob/main/SETUP.md"
-              className="inline-block rounded-lg bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
-            >
-              View Setup Guide
-            </a>
-          </div>
-        </div>
-      )}
-
-      {/* Featured Content */}
-      {feed?.featured && feed.featured.length > 0 && (
+      {/* Recent Articles */}
+      {feed?.recent && feed.recent.length > 0 && (
         <div className="mb-16">
-          <h2 className="mb-8 text-3xl font-bold text-zinc-900 dark:text-zinc-50">
-            Featured Work
-          </h2>
-
-          {/* First Featured Item - Full Width */}
-          {feed.featured[0] && (() => {
-            const item = feed.featured[0];
+          {/* Most Recent Article - Full Width Hero */}
+          {feed.recent[0] && (() => {
+            const item = feed.recent[0];
             const image = item._type === "project" ? item.featuredImage : item.coverImage;
 
             return (
               <Link
                 href={`/${item._type === "project" ? "projects" : "blog"}/${item.slug.current}`}
-                className="group mb-8 block overflow-hidden rounded-lg border border-zinc-200 transition-all hover:shadow-lg dark:border-zinc-800"
+                className="group mb-12 block overflow-hidden rounded-lg border border-zinc-200 transition-all hover:shadow-lg dark:border-zinc-800"
               >
                 {image && (
                   <div className="relative aspect-[21/9] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900">
@@ -95,10 +43,20 @@ export default async function Home() {
                   </div>
                 )}
                 <div className="p-8">
-                  <span className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
-                    {item._type === "project" ? item.type : "Blog Post"}
-                  </span>
-                  <h3 className="mt-2 text-3xl font-bold text-zinc-900 dark:text-zinc-50">
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
+                      {item._type === "project" ? item.type : "Blog Post"}
+                    </span>
+                    <span className="text-sm text-zinc-500 dark:text-zinc-500">•</span>
+                    <time className="text-sm text-zinc-500 dark:text-zinc-500">
+                      {new Date(item.publishedDate).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </time>
+                  </div>
+                  <h3 className="mt-2 text-xl font-bold text-zinc-900 dark:text-zinc-50 sm:text-2xl lg:text-3xl">
                     {item.title}
                   </h3>
                   <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
@@ -121,34 +79,47 @@ export default async function Home() {
             );
           })()}
 
-          {/* Remaining Featured Items - Grid */}
-          {feed.featured.length > 1 && (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {feed.featured.slice(1).map((item: any) => {
+          {/* Remaining Recent Articles - List Layout with Thumbnails */}
+          {feed.recent.length > 1 && (
+            <div className="space-y-6">
+              {feed.recent.slice(1, 10).map((item: any) => {
                 const image = item._type === "project" ? item.featuredImage : item.coverImage;
 
                 return (
                   <Link
                     key={item._id}
                     href={`/${item._type === "project" ? "projects" : "blog"}/${item.slug.current}`}
-                    className="group block overflow-hidden rounded-lg border border-zinc-200 transition-all hover:shadow-md dark:border-zinc-800"
+                    className="group flex gap-6 overflow-hidden rounded-lg border border-zinc-200 transition-all hover:shadow-md dark:border-zinc-800"
                   >
+                    {/* Thumbnail Image on Left */}
                     {image && (
-                      <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+                      <div className="relative h-32 w-48 flex-shrink-0 overflow-hidden bg-zinc-100 dark:bg-zinc-900">
                         <Image
-                          src={urlFor(image).width(600).height(400).url()}
+                          src={urlFor(image).width(400).height(300).url()}
                           alt={image.alt || item.title}
                           fill
                           className="object-cover transition-transform duration-300 group-hover:scale-105"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                          sizes="192px"
                         />
                       </div>
                     )}
-                    <div className="p-6">
-                      <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
-                        {item._type === "project" ? item.type : "Blog Post"}
-                      </span>
-                      <h3 className="mt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-50">
+
+                    {/* Content on Right */}
+                    <div className="flex flex-1 flex-col justify-center py-4 pr-6">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                          {item._type === "project" ? item.type : "Blog Post"}
+                        </span>
+                        <span className="text-xs text-zinc-400 dark:text-zinc-600">•</span>
+                        <time className="text-xs text-zinc-500 dark:text-zinc-500">
+                          {new Date(item.publishedDate).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </time>
+                      </div>
+                      <h3 className="mt-1 text-base font-semibold text-zinc-900 dark:text-zinc-50 sm:text-lg lg:text-xl">
                         {item.title}
                       </h3>
                       <p className="mt-2 line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">
