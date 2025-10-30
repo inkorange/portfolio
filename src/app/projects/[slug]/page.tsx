@@ -24,9 +24,33 @@ export async function generateMetadata({ params }: Props) {
     };
   }
 
+  const imageUrl = project.featuredImage
+    ? urlFor(project.featuredImage).width(1200).height(630).url()
+    : null;
+
   return {
-    title: `${project.title} - Christopher West`,
+    title: `${project.title} - ${project.type} Project | Chris West`,
     description: project.summary,
+    keywords: project.tags?.join(", ") || "",
+    authors: [{ name: "Chris West" }],
+    creator: "Chris West",
+    publisher: "Chris West",
+    openGraph: {
+      title: project.title,
+      description: project.summary,
+      type: "article",
+      publishedTime: project.publishedDate,
+      authors: ["Chris West"],
+      images: imageUrl ? [{ url: imageUrl, width: 1200, height: 630, alt: project.title }] : [],
+      siteName: "Chris West Portfolio",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: project.summary,
+      images: imageUrl ? [imageUrl] : [],
+      creator: "@yourhandle",
+    },
   };
 }
 
@@ -42,8 +66,32 @@ export default async function ProjectPage({ params }: Props) {
   const nextProject = await getNextProject(project.publishedDate, project.type);
   const previousProject = await getPreviousProject(project.publishedDate, project.type);
 
+  // Structured data for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: project.title,
+    description: project.summary,
+    image: project.featuredImage ? urlFor(project.featuredImage).width(1200).height(630).url() : undefined,
+    datePublished: project.publishedDate,
+    author: {
+      "@type": "Person",
+      name: "Chris West",
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Chris West",
+    },
+    keywords: project.tags?.join(", "),
+  };
+
   return (
     <div>
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       {/* Full-width Featured Image with Overlapping Content */}
       <div className="relative">
         {project.featuredImage && (

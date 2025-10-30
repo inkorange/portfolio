@@ -10,7 +10,7 @@ export default function Footer() {
           {/* Brand/Bio */}
           <div>
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-              Christopher West
+              Chris West
             </h3>
             <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
               Engineering & Traditional Art Portfolio
@@ -72,7 +72,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="mt-8 border-t border-zinc-200 pt-8 dark:border-zinc-800">
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            &copy; {currentYear} Christopher West. All rights reserved.
+            &copy; {currentYear} Chris West. All rights reserved.
           </p>
         </div>
       </div>

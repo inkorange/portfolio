@@ -24,9 +24,33 @@ export async function generateMetadata({ params }: Props) {
     };
   }
 
+  const imageUrl = post.coverImage
+    ? urlFor(post.coverImage).width(1200).height(630).url()
+    : null;
+
   return {
-    title: `${post.title} - Christopher West`,
+    title: `${post.title} | Chris West Blog`,
     description: post.excerpt,
+    keywords: post.tags?.join(", ") || "",
+    authors: [{ name: "Chris West" }],
+    creator: "Chris West",
+    publisher: "Chris West",
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: "article",
+      publishedTime: post.publishedDate,
+      authors: ["Chris West"],
+      images: imageUrl ? [{ url: imageUrl, width: 1200, height: 630, alt: post.title }] : [],
+      siteName: "Chris West Portfolio",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: imageUrl ? [imageUrl] : [],
+      creator: "@yourhandle",
+    },
   };
 }
 
@@ -42,8 +66,32 @@ export default async function BlogPostPage({ params }: Props) {
   const nextPost = await getNextBlogPost(post.publishedDate);
   const previousPost = await getPreviousBlogPost(post.publishedDate);
 
+  // Structured data for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    image: post.coverImage ? urlFor(post.coverImage).width(1200).height(630).url() : undefined,
+    datePublished: post.publishedDate,
+    author: {
+      "@type": "Person",
+      name: "Chris West",
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Chris West",
+    },
+    keywords: post.tags?.join(", "),
+  };
+
   return (
     <article>
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       {/* Full-width Cover Image with Overlapping Content */}
       <div className="relative">
         {post.coverImage && (

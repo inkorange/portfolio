@@ -4,8 +4,20 @@ import { getAllProjects } from "@/lib/sanity/fetch";
 import { urlFor } from "@/lib/sanity/image";
 
 export const metadata = {
-  title: "All Projects - Christopher West",
-  description: "Browse all UI/Engineering and Traditional Art projects",
+  title: "All Projects | Chris West Portfolio",
+  description: "Browse all UI/Engineering and Traditional Art projects by Chris West. Explore software engineering tools, web applications, user interface designs, and traditional art pieces.",
+  keywords: "projects, portfolio, UI engineering, software development, traditional art, Chris West",
+  openGraph: {
+    title: "All Projects - Chris West",
+    description: "Browse all UI/Engineering and Traditional Art projects",
+    type: "website",
+    siteName: "Chris West Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "All Projects - Chris West",
+    description: "Browse all UI/Engineering and Traditional Art projects",
+  },
 };
 
 export default async function ProjectsPage() {
@@ -34,7 +46,7 @@ export default async function ProjectsPage() {
             <Link
               key={project._id}
               href={`/projects/${project.slug.current}`}
-              className="group block overflow-hidden rounded-lg border border-zinc-200 transition-all hover:shadow-md dark:border-zinc-800"
+              className="group block overflow-hidden rounded-lg border border-zinc-200 bg-black/75 transition-all hover:shadow-md dark:border-zinc-800"
             >
               {project.featuredImage && (
                 <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900">
@@ -48,13 +60,13 @@ export default async function ProjectsPage() {
                 </div>
               )}
               <div className="p-6">
-                <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                <span className="text-xs font-medium text-zinc-300">
                   {project.type}
                 </span>
-                <h3 className="mt-2 text-xl font-semibold text-zinc-900 dark:text-zinc-50">
+                <h3 className="mt-2 text-xl font-semibold text-white">
                   {project.title}
                 </h3>
-                <p className="mt-2 line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">
+                <p className="mt-2 line-clamp-2 text-sm text-zinc-300">
                   {project.summary}
                 </p>
                 {project.tags && project.tags.length > 0 && (
@@ -62,7 +74,7 @@ export default async function ProjectsPage() {
                     {project.tags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full bg-zinc-100 px-3 py-1 text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+                        className="rounded-full bg-white/10 px-3 py-1 text-xs text-white"
                       >
                         {tag}
                       </span>

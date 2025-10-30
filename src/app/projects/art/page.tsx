@@ -4,8 +4,20 @@ import { getProjectsByType } from "@/lib/sanity/fetch";
 import { urlFor } from "@/lib/sanity/image";
 
 export const metadata = {
-  title: "Traditional Art - Christopher West",
-  description: "Traditional art portfolio and gallery",
+  title: "Traditional Art Gallery | Chris West",
+  description: "Explore traditional art pieces by Chris West. View paintings, drawings, and other traditional media artwork with detailed descriptions.",
+  keywords: "traditional art, paintings, drawings, fine art, gallery, Chris West, art portfolio",
+  openGraph: {
+    title: "Traditional Art Gallery",
+    description: "Traditional art portfolio and gallery by Chris West",
+    type: "website",
+    siteName: "Chris West Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Traditional Art Gallery",
+    description: "Traditional art portfolio and gallery",
+  },
 };
 
 export default async function ArtProjectsPage() {
@@ -34,7 +46,7 @@ export default async function ArtProjectsPage() {
             <Link
               key={project._id}
               href={`/projects/${project.slug.current}`}
-              className="group block overflow-hidden rounded-lg border border-zinc-200 transition-all hover:shadow-md dark:border-zinc-800"
+              className="group block overflow-hidden rounded-lg border border-zinc-200 bg-black/75 transition-all hover:shadow-md dark:border-zinc-800"
             >
               {project.featuredImage && (
                 <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900">
@@ -48,10 +60,10 @@ export default async function ArtProjectsPage() {
                 </div>
               )}
               <div className="p-6">
-                <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-50">
+                <h3 className="text-xl font-semibold text-white">
                   {project.title}
                 </h3>
-                <p className="mt-2 line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">
+                <p className="mt-2 line-clamp-2 text-sm text-zinc-300">
                   {project.summary}
                 </p>
                 {project.tags && project.tags.length > 0 && (
@@ -59,7 +71,7 @@ export default async function ArtProjectsPage() {
                     {project.tags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full bg-zinc-100 px-3 py-1 text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+                        className="rounded-full bg-white/10 px-3 py-1 text-xs text-white"
                       >
                         {tag}
                       </span>

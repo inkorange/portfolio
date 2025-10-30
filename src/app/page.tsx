@@ -29,7 +29,7 @@ export default async function Home() {
             return (
               <Link
                 href={`/${item._type === "project" ? "projects" : "blog"}/${item.slug.current}`}
-                className="group mb-12 block overflow-hidden rounded-lg border border-zinc-200 transition-all hover:shadow-lg dark:border-zinc-800"
+                className="group mb-12 block overflow-hidden rounded-lg border border-zinc-200 bg-black/75 transition-all hover:shadow-lg dark:border-zinc-800"
               >
                 {image && (
                   <div className="relative aspect-[21/9] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900">
@@ -44,11 +44,11 @@ export default async function Home() {
                 )}
                 <div className="p-8">
                   <div className="flex items-center gap-3">
-                    <span className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
+                    <span className="text-sm font-medium text-zinc-300">
                       {item._type === "project" ? item.type : "Blog Post"}
                     </span>
-                    <span className="text-sm text-zinc-500 dark:text-zinc-500">•</span>
-                    <time className="text-sm text-zinc-500 dark:text-zinc-500">
+                    <span className="text-sm text-zinc-400">•</span>
+                    <time className="text-sm text-zinc-400">
                       {new Date(item.publishedDate).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
@@ -56,10 +56,10 @@ export default async function Home() {
                       })}
                     </time>
                   </div>
-                  <h3 className="mt-2 text-xl font-bold text-zinc-900 dark:text-zinc-50 sm:text-2xl lg:text-3xl">
+                  <h3 className="mt-2 text-xl font-bold text-white sm:text-2xl lg:text-3xl">
                     {item.title}
                   </h3>
-                  <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
+                  <p className="mt-4 text-lg text-zinc-300">
                     {item._type === "project" ? item.summary : item.excerpt}
                   </p>
                   {item.tags && item.tags.length > 0 && (
@@ -67,7 +67,7 @@ export default async function Home() {
                       {item.tags.slice(0, 4).map((tag: string) => (
                         <span
                           key={tag}
-                          className="rounded-full bg-zinc-100 px-3 py-1 text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+                          className="rounded-full bg-white/10 px-3 py-1 text-xs text-white"
                         >
                           {tag}
                         </span>
@@ -89,7 +89,7 @@ export default async function Home() {
                   <Link
                     key={item._id}
                     href={`/${item._type === "project" ? "projects" : "blog"}/${item.slug.current}`}
-                    className="group flex gap-6 overflow-hidden rounded-lg border border-zinc-200 transition-all hover:shadow-md dark:border-zinc-800"
+                    className="group flex gap-6 overflow-hidden rounded-lg border border-zinc-200 bg-black/75 transition-all hover:shadow-md dark:border-zinc-800"
                   >
                     {/* Thumbnail Image on Left */}
                     {image && (
@@ -107,11 +107,11 @@ export default async function Home() {
                     {/* Content on Right */}
                     <div className="flex flex-1 flex-col justify-center py-4 pr-6">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                        <span className="text-xs font-medium text-zinc-300">
                           {item._type === "project" ? item.type : "Blog Post"}
                         </span>
-                        <span className="text-xs text-zinc-400 dark:text-zinc-600">•</span>
-                        <time className="text-xs text-zinc-500 dark:text-zinc-500">
+                        <span className="text-xs text-zinc-400">•</span>
+                        <time className="text-xs text-zinc-400">
                           {new Date(item.publishedDate).toLocaleDateString("en-US", {
                             year: "numeric",
                             month: "short",
@@ -119,10 +119,10 @@ export default async function Home() {
                           })}
                         </time>
                       </div>
-                      <h3 className="mt-1 text-base font-semibold text-zinc-900 dark:text-zinc-50 sm:text-lg lg:text-xl">
+                      <h3 className="mt-1 text-base font-semibold text-white sm:text-lg lg:text-xl">
                         {item.title}
                       </h3>
-                      <p className="mt-2 line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">
+                      <p className="mt-2 line-clamp-2 text-sm text-zinc-300">
                         {item._type === "project" ? item.summary : item.excerpt}
                       </p>
                     </div>

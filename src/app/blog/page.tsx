@@ -4,8 +4,20 @@ import { getAllBlogPosts } from "@/lib/sanity/fetch";
 import { urlFor } from "@/lib/sanity/image";
 
 export const metadata = {
-  title: "Blog - Christopher West",
-  description: "News, updates, and thoughts on engineering and art",
+  title: "Blog | Chris West",
+  description: "Read articles about software engineering, UI/UX design, traditional art, and creative processes. News, updates, and insights from Chris West.",
+  keywords: "blog, software engineering, UI design, art, web development, Chris West",
+  openGraph: {
+    title: "Blog - Chris West",
+    description: "News, updates, and thoughts on engineering and art",
+    type: "website",
+    siteName: "Chris West Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog - Chris West",
+    description: "News, updates, and thoughts on engineering and art",
+  },
 };
 
 export default async function BlogPage() {
@@ -34,7 +46,7 @@ export default async function BlogPage() {
             <Link
               key={post._id}
               href={`/blog/${post.slug.current}`}
-              className="group block overflow-hidden rounded-lg border border-zinc-200 transition-all hover:shadow-md dark:border-zinc-800"
+              className="group block overflow-hidden rounded-lg border border-zinc-200 bg-black/75 transition-all hover:shadow-md dark:border-zinc-800"
             >
               <article className="flex flex-col md:flex-row">
                 {post.coverImage && (
@@ -49,17 +61,17 @@ export default async function BlogPage() {
                   </div>
                 )}
                 <div className="flex flex-1 flex-col p-6">
-                  <time className="text-sm text-zinc-600 dark:text-zinc-400">
+                  <time className="text-sm text-zinc-400">
                     {new Date(post.publishedDate).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
                     })}
                   </time>
-                  <h2 className="mt-2 text-2xl font-semibold text-zinc-900 dark:text-zinc-50">
+                  <h2 className="mt-2 text-2xl font-semibold text-white">
                     {post.title}
                   </h2>
-                  <p className="mt-2 line-clamp-2 text-zinc-600 dark:text-zinc-400">
+                  <p className="mt-2 line-clamp-2 text-zinc-300">
                     {post.excerpt}
                   </p>
                   {post.tags && post.tags.length > 0 && (
@@ -67,7 +79,7 @@ export default async function BlogPage() {
                       {post.tags.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
-                          className="rounded-full bg-zinc-100 px-3 py-1 text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+                          className="rounded-full bg-white/10 px-3 py-1 text-xs text-white"
                         >
                           {tag}
                         </span>

@@ -4,8 +4,20 @@ import { getProjectsByType } from "@/lib/sanity/fetch";
 import { urlFor } from "@/lib/sanity/image";
 
 export const metadata = {
-  title: "UI & Engineering Projects - Christopher West",
-  description: "Software engineering and UI/UX projects",
+  title: "UI & Engineering Projects | Chris West",
+  description: "Explore software engineering tools, web applications, and user interface designs by Chris West. View detailed case studies and technical implementations.",
+  keywords: "UI engineering, software engineering, web development, user interface design, front-end development, Chris West",
+  openGraph: {
+    title: "UI & Engineering Projects",
+    description: "Software engineering tools and user interface designs by Chris West",
+    type: "website",
+    siteName: "Chris West Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "UI & Engineering Projects",
+    description: "Software engineering and UI/UX projects",
+  },
 };
 
 export default async function UIProjectsPage() {
@@ -34,7 +46,7 @@ export default async function UIProjectsPage() {
             <Link
               key={project._id}
               href={`/projects/${project.slug.current}`}
-              className="group block overflow-hidden rounded-lg border border-zinc-200 transition-all hover:shadow-md dark:border-zinc-800"
+              className="group block overflow-hidden rounded-lg border border-zinc-200 bg-black/75 transition-all hover:shadow-md dark:border-zinc-800"
             >
               {project.featuredImage && (
                 <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900">
@@ -48,10 +60,10 @@ export default async function UIProjectsPage() {
                 </div>
               )}
               <div className="p-6">
-                <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-50">
+                <h3 className="text-xl font-semibold text-white">
                   {project.title}
                 </h3>
-                <p className="mt-2 line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">
+                <p className="mt-2 line-clamp-2 text-sm text-zinc-300">
                   {project.summary}
                 </p>
                 {project.technologies && project.technologies.length > 0 && (
@@ -59,7 +71,7 @@ export default async function UIProjectsPage() {
                     {project.technologies.slice(0, 3).map((tech) => (
                       <span
                         key={tech}
-                        className="rounded-full bg-zinc-100 px-3 py-1 text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+                        className="rounded-full bg-white/10 px-3 py-1 text-xs text-white"
                       >
                         {tech}
                       </span>

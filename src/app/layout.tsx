@@ -18,8 +18,36 @@ const robotoMono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Christopher West - Engineering & Art Portfolio",
-  description: "Portfolio showcasing UI/Engineering projects and traditional art by Christopher West",
+  title: "Chris West - Engineering & Art Portfolio",
+  description: "Portfolio showcasing UI/Engineering projects and traditional art by Chris West. Explore software engineering tools, user interface designs, and traditional art pieces.",
+  keywords: "Chris West, portfolio, UI engineering, software engineering, traditional art, web development, design",
+  authors: [{ name: "Chris West" }],
+  creator: "Chris West",
+  publisher: "Chris West",
+  openGraph: {
+    title: "Chris West - Engineering & Art Portfolio",
+    description: "Portfolio showcasing UI/Engineering projects and traditional art by Chris West",
+    type: "website",
+    siteName: "Chris West Portfolio",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Chris West - Engineering & Art Portfolio",
+    description: "Portfolio showcasing UI/Engineering projects and traditional art",
+    creator: "@yourhandle",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
