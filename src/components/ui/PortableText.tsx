@@ -1,8 +1,12 @@
 import { PortableText as PortableTextReact } from "@portabletext/react";
 import Image from "next/image";
 import { urlFor } from "@/lib/sanity/image";
+import type { ImageAsset } from "@/lib/types";
 
-const components = {
+const createComponents = (galleryImages?: ImageAsset[]) => {
+  let paragraphCount = 0;
+
+  return {
   types: {
     image: ({ value }: any) => {
       if (!value?.asset) return null;
@@ -72,11 +76,39 @@ const components = {
         {children}
       </blockquote>
     ),
-    normal: ({ children }: any) => (
-      <p className="mb-4 text-base leading-7 text-zinc-600 dark:text-zinc-400">
-        {children}
-      </p>
-    ),
+    normal: ({ children }: any) => {
+      paragraphCount++;
+      const shouldInjectGallery = paragraphCount === 1 && galleryImages && galleryImages.length > 0;
+
+      return (
+        <>
+          <p className="mb-4 text-base leading-7 text-zinc-600 dark:text-zinc-400">
+            {children}
+          </p>
+          {shouldInjectGallery && (
+            <div className="mb-8 w-3/5 space-y-6 md:float-right md:ml-8 md:w-[35%]">
+              {galleryImages.map((image, index) => (
+                <div key={image._key || index} className="overflow-hidden rounded-lg">
+                  <Image
+                    src={urlFor(image).width(800).url()}
+                    alt={image.alt || `Gallery image ${index + 1}`}
+                    width={image.width || 800}
+                    height={image.height || 600}
+                    className="h-auto w-full rounded-lg bg-zinc-800"
+                    sizes="(max-width: 768px) 60vw, 35vw"
+                  />
+                  {image.alt && (
+                    <p className="mt-2 text-xs text-zinc-400">
+                      {image.alt}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      );
+    },
   },
   list: {
     bullet: ({ children }: any) => (
@@ -94,12 +126,15 @@ const components = {
     bullet: ({ children }: any) => <li>{children}</li>,
     number: ({ children }: any) => <li>{children}</li>,
   },
+  };
 };
 
 interface PortableTextProps {
   value: any;
+  galleryImages?: ImageAsset[];
 }
 
-export default function PortableText({ value }: PortableTextProps) {
+export default function PortableText({ value, galleryImages }: PortableTextProps) {
+  const components = createComponents(galleryImages);
   return <PortableTextReact value={value} components={components} />;
 }

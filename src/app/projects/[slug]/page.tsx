@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getProjectBySlug, getAllProjectSlugs } from "@/lib/sanity/fetch";
+import { getProjectBySlug, getAllProjectSlugs, getNextProject, getPreviousProject } from "@/lib/sanity/fetch";
 import { urlFor } from "@/lib/sanity/image";
 import PortableText from "@/components/ui/PortableText";
+import ArticleNavigation from "@/components/ui/ArticleNavigation";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -37,14 +38,24 @@ export default async function ProjectPage({ params }: Props) {
     notFound();
   }
 
+  // Fetch next and previous projects
+  const nextProject = await getNextProject(project.publishedDate, project.type);
+  const previousProject = await getPreviousProject(project.publishedDate, project.type);
+
   return (
     <div>
       {/* Full-width Featured Image with Overlapping Content */}
       <div className="relative">
         {project.featuredImage && (
-          <div className="relative aspect-[21/9] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+          <div
+            className="relative aspect-[21/13.5] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900"
+            style={{
+              maskImage: 'linear-gradient(to top, transparent 0px, black 150px)',
+              WebkitMaskImage: 'linear-gradient(to top, transparent 0px, black 150px)',
+            }}
+          >
             <Image
-              src={urlFor(project.featuredImage).width(1920).height(820).url()}
+              src={urlFor(project.featuredImage).width(1920).height(1230).url()}
               alt={project.featuredImage.alt || project.title}
               fill
               className="object-cover"
@@ -55,12 +66,22 @@ export default async function ProjectPage({ params }: Props) {
         )}
 
         {/* Overlapping Header Content */}
-        <div className="relative -mt-[15%] pb-16">
+        <div className="relative -mt-[50%] pb-16">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
             <div className="rounded-lg bg-black/90 p-8 sm:p-12">
-              <span className="text-sm font-medium text-zinc-300">
-                {project.type} Project
-              </span>
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-zinc-300">
+                  {project.type} Project
+                </span>
+                <span className="text-sm text-zinc-500">•</span>
+                <time className="text-sm text-zinc-400">
+                  {new Date(project.publishedDate).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </time>
+              </div>
               <h1 className="mt-2 text-4xl font-bold tracking-tight text-white">
                 {project.title}
               </h1>
@@ -105,18 +126,29 @@ export default async function ProjectPage({ params }: Props) {
                   )}
                 </div>
               )}
+
+              {/* Main Article Content with Gallery Images */}
+              {project.description && (
+                <div className="mt-8 border-t border-white/10 pt-8">
+                  <div className="prose prose-zinc prose-invert max-w-none">
+                    <PortableText value={project.description} galleryImages={project.images} />
+                  </div>
+                  {/* Clear float */}
+                  <div className="clear-both" />
+                </div>
+              )}
+
+              {/* Navigation Links */}
+              <ArticleNavigation
+                previous={previousProject}
+                next={nextProject}
+                basePath="/projects"
+                viewAllPath={project.type === "UI" ? "/projects/ui" : "/projects/art"}
+                viewAllLabel={project.type === "UI" ? "UI/Engineering" : "Traditional Art"}
+              />
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Main Article Content */}
-      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
-        {project.description && (
-          <div className="prose prose-zinc dark:prose-invert max-w-none">
-            <PortableText value={project.description} />
-          </div>
-        )}
       </div>
     </div>
   );

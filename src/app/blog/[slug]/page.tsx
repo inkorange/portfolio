@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getBlogPostBySlug, getAllBlogPostSlugs } from "@/lib/sanity/fetch";
+import { getBlogPostBySlug, getAllBlogPostSlugs, getNextBlogPost, getPreviousBlogPost } from "@/lib/sanity/fetch";
 import { urlFor } from "@/lib/sanity/image";
 import PortableText from "@/components/ui/PortableText";
+import ArticleNavigation from "@/components/ui/ArticleNavigation";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -37,14 +38,24 @@ export default async function BlogPostPage({ params }: Props) {
     notFound();
   }
 
+  // Fetch next and previous blog posts
+  const nextPost = await getNextBlogPost(post.publishedDate);
+  const previousPost = await getPreviousBlogPost(post.publishedDate);
+
   return (
     <article>
       {/* Full-width Cover Image with Overlapping Content */}
       <div className="relative">
         {post.coverImage && (
-          <div className="relative aspect-[21/9] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+          <div
+            className="relative aspect-[21/13.5] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900"
+            style={{
+              maskImage: 'linear-gradient(to top, transparent 0px, black 150px)',
+              WebkitMaskImage: 'linear-gradient(to top, transparent 0px, black 150px)',
+            }}
+          >
             <Image
-              src={urlFor(post.coverImage).width(1920).height(820).url()}
+              src={urlFor(post.coverImage).width(1920).height(1230).url()}
               alt={post.coverImage.alt || post.title}
               fill
               className="object-cover"
@@ -55,7 +66,7 @@ export default async function BlogPostPage({ params }: Props) {
         )}
 
         {/* Overlapping Header Content */}
-        <div className="relative -mt-[15%] pb-16">
+        <div className="relative -mt-[50%] pb-16">
           <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
             <div className="rounded-lg bg-black/90 p-8 sm:p-12">
               <time className="text-sm text-zinc-300">
@@ -84,18 +95,27 @@ export default async function BlogPostPage({ params }: Props) {
                   ))}
                 </div>
               )}
+
+              {/* Main Article Content */}
+              {post.content && (
+                <div className="mt-8 border-t border-white/10 pt-8">
+                  <div className="prose prose-zinc prose-invert max-w-none">
+                    <PortableText value={post.content} />
+                  </div>
+                </div>
+              )}
+
+              {/* Navigation Links */}
+              <ArticleNavigation
+                previous={previousPost}
+                next={nextPost}
+                basePath="/blog"
+                viewAllPath="/blog"
+                viewAllLabel="Blog Posts"
+              />
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Main Article Content */}
-      <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-        {post.content && (
-          <div className="prose prose-zinc dark:prose-invert max-w-none">
-            <PortableText value={post.content} />
-          </div>
-        )}
       </div>
     </article>
   );
