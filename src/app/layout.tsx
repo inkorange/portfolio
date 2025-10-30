@@ -3,6 +3,7 @@ import { Roboto, Roboto_Mono } from "next/font/google";
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import ParallaxBackground from "@/components/ui/ParallaxBackground";
+import GoogleTagManager from "@/components/GoogleAnalytics";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -60,6 +61,8 @@ export default function RootLayout({
       <body
         className={`${roboto.variable} ${robotoMono.variable} font-sans antialiased`}
       >
+        <GoogleTagManager />
+
         {/* Parallax Background Image */}
         <ParallaxBackground />
 
