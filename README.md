@@ -1,4 +1,4 @@
-# Christopher West - Portfolio
+# Chris West - Portfolio
 
 A modern portfolio website showcasing UI/Engineering projects and traditional art, built with Next.js and Sanity CMS.
 

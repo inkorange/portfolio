@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import styles from "@/app/layout.module.scss";
+import styles from "./ParallaxBackground.module.scss";
 
 export default function ParallaxBackground() {
   const backgroundRef = useRef<HTMLDivElement>(null);

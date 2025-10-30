@@ -4,8 +4,8 @@ import { urlFor } from "@/lib/sanity/image";
 import PortableText from "@/components/ui/PortableText";
 
 export const metadata = {
-  title: "About - Christopher West",
-  description: "Learn more about Christopher West",
+  title: "About - Chris West",
+  description: "Learn more about Chris West",
 };
 
 export default async function AboutPage() {

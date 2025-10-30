@@ -2,6 +2,7 @@ import { PortableText as PortableTextReact } from "@portabletext/react";
 import Image from "next/image";
 import { urlFor } from "@/lib/sanity/image";
 import type { ImageAsset } from "@/lib/types";
+import GalleryImage from "./GalleryImage";
 
 const createComponents = (galleryImages?: ImageAsset[]) => {
   let paragraphCount = 0;
@@ -88,20 +89,14 @@ const createComponents = (galleryImages?: ImageAsset[]) => {
           {shouldInjectGallery && (
             <div className="mb-8 w-3/5 space-y-6 md:float-right md:ml-8 md:w-[35%]">
               {galleryImages.map((image, index) => (
-                <div key={image._key || index} className="overflow-hidden rounded-lg">
-                  <Image
+                <div key={image._key || index}>
+                  <GalleryImage
                     src={urlFor(image).width(800).url()}
                     alt={image.alt || `Gallery image ${index + 1}`}
                     width={image.width || 800}
                     height={image.height || 600}
-                    className="h-auto w-full rounded-lg bg-zinc-800"
                     sizes="(max-width: 768px) 60vw, 35vw"
                   />
-                  {image.alt && (
-                    <p className="mt-2 text-xs text-zinc-400">
-                      {image.alt}
-                    </p>
-                  )}
                 </div>
               ))}
             </div>
