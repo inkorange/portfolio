@@ -37,6 +37,7 @@ export default async function Home() {
                       src={urlFor(image).width(1400).height(600).url()}
                       alt={image.alt || item.title}
                       fill
+                      priority
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                       sizes="(max-width: 1280px) 100vw, 1280px"
                     />
@@ -98,6 +99,7 @@ export default async function Home() {
                           src={urlFor(image).width(400).height(300).url()}
                           alt={image.alt || item.title}
                           fill
+                          loading="lazy"
                           className="object-cover transition-transform duration-300 group-hover:scale-105"
                           sizes="192px"
                         />

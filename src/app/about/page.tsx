@@ -14,7 +14,7 @@ export default async function AboutPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mb-12">
-        <h1 className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+        <h1 className="text-4xl font-bold tracking-tight text-white">
           About
         </h1>
       </div>
@@ -26,67 +26,69 @@ export default async function AboutPage() {
           </p>
         </div>
       ) : (
-        <div className="space-y-8">
-          {/* Profile Image */}
-          {about.profileImage && (
-            <div className="flex justify-center">
-              <div className="relative h-48 w-48 overflow-hidden rounded-full">
-                <Image
-                  src={urlFor(about.profileImage).width(400).height(400).url()}
-                  alt={about.profileImage.alt || "Profile"}
-                  fill
-                  className="object-cover"
-                  sizes="192px"
-                />
+        <div className="rounded-lg bg-black/90 p-8 sm:p-12">
+          <div className="space-y-8">
+            {/* Profile Image */}
+            {about.profileImage && (
+              <div className="flex justify-center">
+                <div className="relative h-48 w-48 overflow-hidden rounded-full">
+                  <Image
+                    src={urlFor(about.profileImage).width(400).height(400).url()}
+                    alt={about.profileImage.alt || "Profile"}
+                    fill
+                    className="object-cover"
+                    sizes="192px"
+                  />
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* Bio Content */}
-          {about.bio && (
-            <div className="prose prose-zinc dark:prose-invert max-w-none">
-              <PortableText value={about.bio} />
-            </div>
-          )}
-
-          {about.skills && about.skills.length > 0 && (
-            <div>
-              <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">
-                Skills
-              </h2>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {about.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="rounded-full bg-zinc-100 px-4 py-2 text-sm text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
-                  >
-                    {skill}
-                  </span>
-                ))}
+            {/* Bio Content */}
+            {about.bio && (
+              <div className="prose prose-zinc prose-invert max-w-none">
+                <PortableText value={about.bio} />
               </div>
-            </div>
-          )}
+            )}
 
-          {about.socialLinks && about.socialLinks.length > 0 && (
-            <div>
-              <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">
-                Connect
-              </h2>
-              <div className="mt-4 flex flex-wrap gap-4">
-                {about.socialLinks.map((link) => (
-                  <a
-                    key={link.platform}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
-                  >
-                    {link.platform}
-                  </a>
-                ))}
+            {about.skills && about.skills.length > 0 && (
+              <div>
+                <h2 className="text-2xl font-semibold text-white">
+                  Skills
+                </h2>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {about.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="rounded-full bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-sm"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+
+            {about.socialLinks && about.socialLinks.length > 0 && (
+              <div>
+                <h2 className="text-2xl font-semibold text-white">
+                  Connect
+                </h2>
+                <div className="mt-4 flex flex-wrap gap-4">
+                  {about.socialLinks.map((link) => (
+                    <a
+                      key={link.platform}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-zinc-300 hover:text-white"
+                    >
+                      {link.platform}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
