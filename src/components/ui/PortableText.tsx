@@ -63,7 +63,7 @@ const createComponents = (galleryImages?: ImageAsset[]) => {
       </h2>
     ),
     h3: ({ children }: any) => (
-      <h3 className="mb-2 mt-5 text-2xl font-semibold text-zinc-900 dark:text-zinc-50">
+      <h3 className="mb-4 mt-10 border-l-2 border-blue-600 bg-zinc-50 py-3 pl-4 pr-3 text-2xl font-semibold text-zinc-900 dark:border-blue-400 dark:bg-zinc-900/50 dark:text-zinc-50">
         {children}
       </h3>
     ),
