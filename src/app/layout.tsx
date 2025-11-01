@@ -27,6 +27,10 @@ export const metadata: Metadata = {
   authors: [{ name: "Chris West" }],
   creator: "Chris West",
   publisher: "Chris West",
+  icons: {
+    icon: "/favicon.png",
+    apple: "/favicon.png",
+  },
   openGraph: {
     title: "Chris West - Engineering & Art Portfolio",
     description: "Portfolio showcasing UI/Engineering projects and traditional art by Chris West",
