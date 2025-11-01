@@ -11,10 +11,10 @@ export default async function Home() {
       {/* Hero Section */}
       <div className="mb-16 text-center">
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl lg:text-6xl">
-          Engineering and Art Portfolio
+          Engineering and Art Reflections
         </h1>
         <p className="mt-6 text-xl text-zinc-600 dark:text-zinc-400">
-          from the mind of Chris West
+          from the mind of a seasoned tech leader
         </p>
       </div>
 
@@ -24,18 +24,17 @@ export default async function Home() {
           {/* Most Recent Article - Full Width Hero */}
           {feed.recent[0] && (() => {
             const item = feed.recent[0];
-            const image = item._type === "project" ? item.featuredImage : item.coverImage;
 
             return (
               <Link
-                href={`/${item._type === "project" ? "projects" : "blog"}/${item.slug.current}`}
+                href={`/projects/${item.slug.current}`}
                 className="group mb-12 block overflow-hidden rounded-lg border border-zinc-200 bg-black/75 transition-all hover:shadow-lg dark:border-zinc-800"
               >
-                {image && (
+                {item.featuredImage && (
                   <div className="relative aspect-[21/9] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900">
                     <Image
-                      src={urlFor(image).width(1400).height(600).url()}
-                      alt={image.alt || item.title}
+                      src={urlFor(item.featuredImage).width(1400).height(600).url()}
+                      alt={item.featuredImage.alt || item.title}
                       fill
                       priority
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -44,12 +43,17 @@ export default async function Home() {
                   </div>
                 )}
                 <div className="p-8">
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-medium text-zinc-300">
-                      {item._type === "project" ? item.type : "Blog Post"}
+                  <div className="flex items-center gap-3 text-sm">
+                    <span className={`rounded-full px-3 py-1 text-xs font-medium ${
+                      item.type === "UI"
+                        ? "bg-blue-500/20 text-blue-300"
+                        : "bg-purple-500/20 text-purple-300"
+                    }`}>
+                      {item.type === "UI" ? "Tech" : item.type}
                     </span>
-                    <span className="text-sm text-zinc-400">•</span>
-                    <time className="text-sm text-zinc-400">
+                    <span className="text-zinc-300">By {item.author || "Chris West"}</span>
+                    <span className="text-zinc-400">•</span>
+                    <time className="text-zinc-400">
                       {new Date(item.publishedDate).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
@@ -61,7 +65,7 @@ export default async function Home() {
                     {item.title}
                   </h3>
                   <p className="mt-4 text-lg text-zinc-300">
-                    {item._type === "project" ? item.summary : item.excerpt}
+                    {item.summary}
                   </p>
                   {item.tags && item.tags.length > 0 && (
                     <div className="mt-4 flex flex-wrap gap-2">
@@ -83,70 +87,71 @@ export default async function Home() {
           {/* Remaining Recent Articles - List Layout with Thumbnails */}
           {feed.recent.length > 1 && (
             <div className="space-y-6">
-              {feed.recent.slice(1, 10).map((item: any) => {
-                const image = item._type === "project" ? item.featuredImage : item.coverImage;
-
-                return (
-                  <Link
-                    key={item._id}
-                    href={`/${item._type === "project" ? "projects" : "blog"}/${item.slug.current}`}
-                    className="group flex gap-6 overflow-hidden rounded-lg border border-zinc-200 bg-black/75 transition-all hover:shadow-md dark:border-zinc-800"
-                  >
-                    {/* Thumbnail Image on Left */}
-                    {image && (
-                      <div className="relative h-32 w-48 flex-shrink-0 overflow-hidden bg-zinc-100 dark:bg-zinc-900">
-                        <Image
-                          src={urlFor(image).width(400).height(300).url()}
-                          alt={image.alt || item.title}
-                          fill
-                          loading="lazy"
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
-                          sizes="192px"
-                        />
-                      </div>
-                    )}
-
-                    {/* Content on Right */}
-                    <div className="flex flex-1 flex-col justify-center py-4 pr-6">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-medium text-zinc-300">
-                          {item._type === "project" ? item.type : "Blog Post"}
-                        </span>
-                        <span className="text-xs text-zinc-400">•</span>
-                        <time className="text-xs text-zinc-400">
-                          {new Date(item.publishedDate).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </time>
-                      </div>
-                      <h3 className="mt-1 text-base font-semibold text-white sm:text-lg lg:text-xl">
-                        {item.title}
-                      </h3>
-                      <p className="mt-2 line-clamp-2 text-sm text-zinc-300">
-                        {item._type === "project" ? item.summary : item.excerpt}
-                      </p>
+              {feed.recent.slice(1, 10).map((item: any) => (
+                <Link
+                  key={item._id}
+                  href={`/projects/${item.slug.current}`}
+                  className="group flex gap-6 overflow-hidden rounded-lg border border-zinc-200 bg-black/75 transition-all hover:shadow-md dark:border-zinc-800"
+                >
+                  {/* Thumbnail Image on Left */}
+                  {item.featuredImage && (
+                    <div className="relative h-32 w-48 flex-shrink-0 overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+                      <Image
+                        src={urlFor(item.featuredImage).width(400).height(300).url()}
+                        alt={item.featuredImage.alt || item.title}
+                        fill
+                        loading="lazy"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        sizes="192px"
+                      />
                     </div>
-                  </Link>
-                );
-              })}
+                  )}
+
+                  {/* Content on Right */}
+                  <div className="flex flex-1 flex-col justify-center py-4 pr-6">
+                    <div className="flex items-center gap-2 text-xs">
+                      <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${
+                        item.type === "UI"
+                          ? "bg-blue-500/20 text-blue-300"
+                          : "bg-purple-500/20 text-purple-300"
+                      }`}>
+                        {item.type === "UI" ? "Tech" : item.type}
+                      </span>
+                      <span className="text-zinc-300">By {item.author || "Chris West"}</span>
+                      <span className="text-zinc-400">•</span>
+                      <time className="text-zinc-400">
+                        {new Date(item.publishedDate).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </time>
+                    </div>
+                    <h3 className="mt-1 text-base font-semibold text-white sm:text-lg lg:text-xl">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 line-clamp-2 text-sm text-zinc-300">
+                      {item.summary}
+                    </p>
+                  </div>
+                </Link>
+              ))}
             </div>
           )}
         </div>
       )}
 
       {/* Quick Links */}
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2">
         <Link
           href="/projects/ui"
           className="group rounded-lg border border-zinc-200 p-6 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900"
         >
           <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
-            UI & Engineering →
+            Technology →
           </h3>
           <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-            Browse software engineering projects and UI designs
+            Browse software engineering projects and technology designs
           </p>
         </Link>
 
@@ -159,18 +164,6 @@ export default async function Home() {
           </h3>
           <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
             View traditional art portfolio and gallery
-          </p>
-        </Link>
-
-        <Link
-          href="/blog"
-          className="group rounded-lg border border-zinc-200 p-6 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900"
-        >
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
-            Blog →
-          </h3>
-          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-            Read latest updates and articles
           </p>
         </Link>
       </div>

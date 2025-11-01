@@ -4,19 +4,19 @@ import { getProjectsByType } from "@/lib/sanity/fetch";
 import { urlFor } from "@/lib/sanity/image";
 
 export const metadata = {
-  title: "UI & Engineering Projects | Chris West",
-  description: "Explore software engineering tools, web applications, and user interface designs by Chris West. View detailed case studies and technical implementations.",
-  keywords: "UI engineering, software engineering, web development, user interface design, front-end development, Chris West",
+  title: "Technology Projects | Chris West",
+  description: "Explore software engineering tools, web applications, and technology designs by Chris West. View detailed case studies and technical implementations.",
+  keywords: "technology, software engineering, web development, front-end development, Chris West",
   openGraph: {
-    title: "UI & Engineering Projects",
-    description: "Software engineering tools and user interface designs by Chris West",
+    title: "Technology Projects",
+    description: "Software engineering tools and technology designs by Chris West",
     type: "website",
     siteName: "Chris West Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "UI & Engineering Projects",
-    description: "Software engineering and UI/UX projects",
+    title: "Technology Projects",
+    description: "Software engineering and technology projects",
   },
 };
 
@@ -27,10 +27,10 @@ export default async function UIProjectsPage() {
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mb-12">
         <h1 className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-          UI & Engineering Projects
+          Technology Projects
         </h1>
         <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
-          Software engineering tools and user interface designs
+          Software engineering tools and technology designs
         </p>
       </div>
 
