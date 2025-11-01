@@ -4,6 +4,7 @@ import { getProjectBySlug, getAllProjectSlugs, getNextProject, getPreviousProjec
 import { urlFor } from "@/lib/sanity/image";
 import PortableText from "@/components/ui/PortableText";
 import ArticleNavigation from "@/components/ui/ArticleNavigation";
+import SocialShare from "@/components/ui/SocialShare";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -28,19 +29,32 @@ export async function generateMetadata({ params }: Props) {
     ? urlFor(project.featuredImage).width(1200).height(630).url()
     : null;
 
+  // Process keywords into array for article tags
+  const keywordArray = project.keywords
+    ? project.keywords.split(',').map(k => k.trim()).filter(Boolean)
+    : project.tags || [];
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chriswest.tech';
+  const canonicalUrl = `${siteUrl}/projects/${slug}`;
+
   return {
     title: `${project.title} - ${project.type} Project | Chris West`,
     description: project.summary,
-    keywords: project.tags?.join(", ") || "",
-    authors: [{ name: "Chris West" }],
-    creator: "Chris West",
-    publisher: "Chris West",
+    keywords: project.keywords || project.tags?.join(", ") || "",
+    authors: [{ name: project.author || "Chris West" }],
+    creator: project.author || "Chris West",
+    publisher: project.author || "Chris West",
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: project.title,
       description: project.summary,
       type: "article",
       publishedTime: project.publishedDate,
-      authors: ["Chris West"],
+      authors: [project.author || "Chris West"],
+      tags: keywordArray, // Use keywords for article tags
+      url: canonicalUrl,
       images: imageUrl ? [{ url: imageUrl, width: 1200, height: 630, alt: project.title }] : [],
       siteName: "Chris West Portfolio",
     },
@@ -66,6 +80,9 @@ export default async function ProjectPage({ params }: Props) {
   const nextProject = await getNextProject(project.publishedDate, project.type);
   const previousProject = await getPreviousProject(project.publishedDate, project.type);
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chriswest.tech';
+  const canonicalUrl = `${siteUrl}/projects/${slug}`;
+
   // Structured data for SEO
   const structuredData = {
     "@context": "https://schema.org",
@@ -76,13 +93,13 @@ export default async function ProjectPage({ params }: Props) {
     datePublished: project.publishedDate,
     author: {
       "@type": "Person",
-      name: "Chris West",
+      name: project.author || "Chris West",
     },
     publisher: {
       "@type": "Person",
-      name: "Chris West",
+      name: project.author || "Chris West",
     },
-    keywords: project.tags?.join(", "),
+    keywords: project.keywords || project.tags?.join(", "),
   };
 
   return (
@@ -112,17 +129,22 @@ export default async function ProjectPage({ params }: Props) {
             />
           </div>
         )}
-
+ertgfrgyrgurtyuyt
         {/* Overlapping Header Content */}
         <div className="relative -mt-[50%] pb-16">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
             <div className="rounded-lg bg-black/90 p-8 sm:p-12">
-              <div className="flex items-center gap-3">
-                <span className="text-sm font-medium text-zinc-300">
-                  {project.type} Project
+              <div className="flex items-center gap-3 text-sm">
+                <span className={`rounded-full px-3 py-1 text-xs font-medium ${
+                  project.type === "UI"
+                    ? "bg-blue-500/20 text-blue-300"
+                    : "bg-purple-500/20 text-purple-300"
+                }`}>
+                  {project.type === "UI" ? "Tech" : project.type}
                 </span>
-                <span className="text-sm text-zinc-500">•</span>
-                <time className="text-sm text-zinc-400">
+                <span className="text-zinc-300">By {project.author || "Chris West"}</span>
+                <span className="text-zinc-400">•</span>
+                <time className="text-zinc-400">
                   {new Date(project.publishedDate).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
@@ -175,9 +197,18 @@ export default async function ProjectPage({ params }: Props) {
                 </div>
               )}
 
+              {/* Social Sharing */}
+              <div className="mt-6 border-t border-white/10 py-6">
+                <SocialShare
+                  url={canonicalUrl}
+                  title={project.title}
+                  description={project.summary}
+                />
+              </div>
+
               {/* Main Article Content with Gallery Images */}
               {project.description && (
-                <div className="mt-8 border-t border-white/10 pt-8">
+                <div className="border-t border-white/10 pt-8">
                   <div className="prose prose-zinc prose-invert max-w-none">
                     <PortableText value={project.description} galleryImages={project.images} />
                   </div>
@@ -192,7 +223,7 @@ export default async function ProjectPage({ params }: Props) {
                 next={nextProject}
                 basePath="/projects"
                 viewAllPath={project.type === "UI" ? "/projects/ui" : "/projects/art"}
-                viewAllLabel={project.type === "UI" ? "UI/Engineering" : "Traditional Art"}
+                viewAllLabel={project.type === "UI" ? "Technology" : "Traditional Art"}
               />
             </div>
           </div>

@@ -18,7 +18,7 @@ interface ArticleNavigationProps {
   next: NavigationItem | null;
   basePath: string; // e.g., "/projects" or "/blog"
   viewAllPath: string; // e.g., "/projects/ui" or "/blog"
-  viewAllLabel: string; // e.g., "UI/Engineering" or "Blog Posts"
+  viewAllLabel: string; // e.g., "Technology" or "Traditional Art"
 }
 
 export default function ArticleNavigation({

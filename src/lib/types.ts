@@ -23,6 +23,8 @@ export interface Project {
   slug: Slug;
   type: ProjectType;
   summary: string;
+  author: string;
+  keywords?: string;
   description?: string; // Rich text content
   images: ImageAsset[];
   featuredImage: ImageAsset;
@@ -40,6 +42,8 @@ export interface BlogPost {
   title: string;
   slug: Slug;
   excerpt: string;
+  author: string;
+  keywords?: string;
   content: string; // Rich text content
   coverImage?: ImageAsset;
   publishedDate: string;

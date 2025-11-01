@@ -5,18 +5,18 @@ import { urlFor } from "@/lib/sanity/image";
 
 export const metadata = {
   title: "All Projects | Chris West Portfolio",
-  description: "Browse all UI/Engineering and Traditional Art projects by Chris West. Explore software engineering tools, web applications, user interface designs, and traditional art pieces.",
-  keywords: "projects, portfolio, UI engineering, software development, traditional art, Chris West",
+  description: "Browse all Technology and Traditional Art projects by Chris West. Explore software engineering tools, web applications, technology designs, and traditional art pieces.",
+  keywords: "projects, portfolio, technology, software development, traditional art, Chris West",
   openGraph: {
     title: "All Projects - Chris West",
-    description: "Browse all UI/Engineering and Traditional Art projects",
+    description: "Browse all Technology and Traditional Art projects",
     type: "website",
     siteName: "Chris West Portfolio",
   },
   twitter: {
     card: "summary_large_image",
     title: "All Projects - Chris West",
-    description: "Browse all UI/Engineering and Traditional Art projects",
+    description: "Browse all Technology and Traditional Art projects",
   },
 };
 
@@ -30,7 +30,7 @@ export default async function ProjectsPage() {
           All Projects
         </h1>
         <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
-          A collection of my UI/Engineering and Traditional Art work
+          A collection of my Technology and Traditional Art work
         </p>
       </div>
 
@@ -60,8 +60,12 @@ export default async function ProjectsPage() {
                 </div>
               )}
               <div className="p-6">
-                <span className="text-xs font-medium text-zinc-300">
-                  {project.type}
+                <span className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
+                  project.type === "UI"
+                    ? "bg-blue-500/20 text-blue-300"
+                    : "bg-purple-500/20 text-purple-300"
+                }`}>
+                  {project.type === "UI" ? "Tech" : project.type}
                 </span>
                 <h3 className="mt-2 text-xl font-semibold text-white">
                   {project.title}

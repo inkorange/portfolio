@@ -36,7 +36,7 @@ export default function Footer() {
                   href="/projects/ui"
                   className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
                 >
-                  UI/Engineering
+                  Technology
                 </Link>
               </li>
               <li>
@@ -45,14 +45,6 @@ export default function Footer() {
                   className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
                 >
                   Traditional Art
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/blog"
-                  className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
-                >
-                  Blog
                 </Link>
               </li>
             </ul>
