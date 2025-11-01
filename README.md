@@ -10,6 +10,8 @@ A modern portfolio website showcasing UI/Engineering projects and traditional ar
 - **Responsive Design**: Beautiful on all devices
 - **TypeScript**: Fully typed for better development experience
 - **Hybrid Styling**: Tailwind CSS + SCSS Modules for flexibility
+- **SEO Optimized**: Dynamic sitemap and robots.txt generation
+- **Analytics**: Google Tag Manager integration
 
 ## Tech Stack
 
@@ -17,7 +19,8 @@ A modern portfolio website showcasing UI/Engineering projects and traditional ar
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS v4 + SCSS Modules
 - **CMS**: Sanity
-- **Fonts**: Geist Sans & Geist Mono
+- **Fonts**: Noto Sans Display & Roboto Mono
+- **Analytics**: Google Tag Manager
 
 ## Project Structure
 
