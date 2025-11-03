@@ -2,16 +2,8 @@ import { MetadataRoute } from 'next'
 import { client } from '@/lib/sanity/client'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://chriswest.tech' // Update this to your actual domain
-
-  // Fetch all blog posts
-  const blogPosts = await client.fetch(`
-    *[_type == "blogPost" && defined(slug.current)] {
-      "slug": slug.current,
-      "updatedAt": _updatedAt,
-      publishedDate
-    }
-  `)
+  // Use environment variable for deployed domain, fallback for local dev
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
   // Fetch all projects
   const projects = await client.fetch(`
@@ -48,21 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly' as const,
       priority: 0.9,
     },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    },
   ]
-
-  // Blog post pages
-  const blogPostPages = blogPosts.map((post: any) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.updatedAt || post.publishedDate),
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }))
 
   // Project pages
   const projectPages = projects.map((project: any) => ({
@@ -72,5 +50,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  return [...staticPages, ...blogPostPages, ...projectPages]
+  return [...staticPages, ...projectPages]
 }

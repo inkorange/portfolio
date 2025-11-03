@@ -8,7 +8,7 @@ import styles from "./Navigation.module.scss";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/projects/ui", label: "UI/Engineering" },
+  { href: "/projects/ui", label: "Technology" },
   { href: "/projects/art", label: "Art" },
   // { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },

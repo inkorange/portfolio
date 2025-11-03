@@ -22,6 +22,8 @@ const projectFields = groq`
   slug,
   type,
   summary,
+  author,
+  keywords,
   description,
   "featuredImage": featuredImage {
     ${imageFragment}
@@ -43,6 +45,8 @@ const blogPostFields = groq`
   title,
   slug,
   excerpt,
+  author,
+  keywords,
   content,
   "coverImage": coverImage {
     ${imageFragment}
@@ -150,54 +154,38 @@ export const recentBlogPostsQuery = (limit: number = 3) => groq`
   }
 `;
 
-// Homepage Feed Query (Combined projects and blog posts)
+// Homepage Feed Query (Projects only)
 
 export const homepageFeedQuery = groq`
   {
-    "featured": *[_type in ["project", "blogPost"] && featured == true] | order(publishedDate desc) [0...6] {
+    "featured": *[_type == "project" && featured == true] | order(publishedDate desc) [0...6] {
       _id,
       _type,
       title,
       slug,
       publishedDate,
-      _type == "project" => {
-        type,
-        summary,
-        "featuredImage": featuredImage {
-          ${imageFragment}
-        },
-        tags
+      author,
+      type,
+      summary,
+      "featuredImage": featuredImage {
+        ${imageFragment}
       },
-      _type == "blogPost" => {
-        excerpt,
-        "coverImage": coverImage {
-          ${imageFragment}
-        },
-        tags
-      }
+      tags
     },
-    "recent": *[_type in ["project", "blogPost"]] | order(publishedDate desc) [0...10] {
+    "recent": *[_type == "project"] | order(publishedDate desc) [0...10] {
       _id,
       _type,
       title,
       slug,
       publishedDate,
+      author,
       featured,
-      _type == "project" => {
-        type,
-        summary,
-        "featuredImage": featuredImage {
-          ${imageFragment}
-        },
-        tags
+      type,
+      summary,
+      "featuredImage": featuredImage {
+        ${imageFragment}
       },
-      _type == "blogPost" => {
-        excerpt,
-        "coverImage": coverImage {
-          ${imageFragment}
-        },
-        tags
-      }
+      tags
     }
   }
 `;

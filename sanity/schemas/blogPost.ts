@@ -30,6 +30,21 @@ export default defineType({
       validation: (Rule) => Rule.required().max(250),
     }),
     defineField({
+      name: "author",
+      title: "Author",
+      type: "string",
+      description: "Author of this blog post",
+      initialValue: "Chris West",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "keywords",
+      title: "SEO Keywords",
+      type: "text",
+      description: "Comma-separated keywords for SEO (e.g., web development, react, typescript)",
+      rows: 2,
+    }),
+    defineField({
       name: "content",
       title: "Content",
       type: "array",

@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://chriswest.tech' // Update this to your actual domain
+  // Use environment variable for deployed domain, fallback for local dev
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
   return {
     rules: {
