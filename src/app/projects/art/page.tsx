@@ -26,17 +26,17 @@ export default async function ArtProjectsPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mb-12">
-        <h1 className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+        <h1 className="text-4xl font-bold tracking-tight text-zinc-50">
           Traditional Art
         </h1>
-        <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
+        <p className="mt-4 text-lg text-zinc-400">
           A gallery of traditional art pieces
         </p>
       </div>
 
       {projects.length === 0 ? (
-        <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-12 text-center dark:border-zinc-800 dark:bg-zinc-900">
-          <p className="text-zinc-600 dark:text-zinc-400">
+        <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-12 text-center">
+          <p className="text-zinc-400">
             No art projects yet. Add some content in your Sanity CMS!
           </p>
         </div>
@@ -46,10 +46,10 @@ export default async function ArtProjectsPage() {
             <Link
               key={project._id}
               href={`/projects/${project.slug.current}`}
-              className="group block overflow-hidden rounded-lg border border-zinc-200 bg-black/75 transition-all hover:shadow-md dark:border-zinc-800"
+              className="group block overflow-hidden rounded-lg border border-zinc-800 bg-black/75 transition-all hover:shadow-md"
             >
               {project.featuredImage && (
-                <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+                <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-900">
                   <Image
                     src={urlFor(project.featuredImage).width(600).height(400).url()}
                     alt={project.featuredImage.alt || project.title}

@@ -26,7 +26,7 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-zinc-200 bg-white/80 backdrop-blur-md dark:border-zinc-800 dark:bg-black/80">
+    <nav className="sticky top-0 z-50 border-b border-zinc-800 bg-black/80 backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
@@ -51,8 +51,8 @@ export default function Navigation() {
                 href={link.href}
                 className={`text-sm font-medium transition-colors ${
                   isActive(link.href)
-                    ? "text-zinc-900 dark:text-zinc-50"
-                    : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+                    ? "text-zinc-50"
+                    : "text-zinc-400 hover:text-zinc-50"
                 }`}
               >
                 {link.label}
@@ -63,7 +63,7 @@ export default function Navigation() {
           {/* Mobile menu button */}
           <button
             type="button"
-            className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-50"
+            className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-50"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -82,7 +82,7 @@ export default function Navigation() {
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-zinc-200 dark:border-zinc-800">
+        <div className="md:hidden border-t border-zinc-800">
           <div className="space-y-1 px-4 pb-3 pt-2">
             {navLinks.map((link) => (
               <Link
@@ -91,8 +91,8 @@ export default function Navigation() {
                 onClick={() => setMobileMenuOpen(false)}
                 className={`block rounded-md px-3 py-2 text-base font-medium ${
                   isActive(link.href)
-                    ? "bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-50"
-                    : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-50"
+                    ? "bg-zinc-800 text-zinc-50"
+                    : "text-zinc-400 hover:bg-zinc-900 hover:text-zinc-50"
                 }`}
               >
                 {link.label}
