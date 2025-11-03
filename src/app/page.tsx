@@ -10,10 +10,10 @@ export default async function Home() {
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       {/* Hero Section */}
       <div className="mb-16 text-center">
-        <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl lg:text-6xl">
+        <h1 className="text-3xl font-bold tracking-tight text-zinc-50 sm:text-5xl lg:text-6xl">
           Engineering and Art Reflections
         </h1>
-        <p className="mt-6 text-xl text-zinc-600 dark:text-zinc-400">
+        <p className="mt-6 text-xl text-zinc-400">
           from the mind of a seasoned tech leader
         </p>
       </div>
@@ -145,24 +145,24 @@ export default async function Home() {
       <div className="grid gap-6 md:grid-cols-2">
         <Link
           href="/projects/ui"
-          className="group rounded-lg border border-zinc-200 p-6 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900"
+          className="group rounded-lg border border-zinc-800 p-6 transition-colors hover:bg-zinc-900"
         >
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+          <h3 className="text-lg font-semibold text-zinc-50">
             Technology →
           </h3>
-          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="mt-2 text-sm text-zinc-400">
             Browse software engineering projects and technology designs
           </p>
         </Link>
 
         <Link
           href="/projects/art"
-          className="group rounded-lg border border-zinc-200 p-6 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900"
+          className="group rounded-lg border border-zinc-800 p-6 transition-colors hover:bg-zinc-900"
         >
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+          <h3 className="text-lg font-semibold text-zinc-50">
             Traditional Art →
           </h3>
-          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="mt-2 text-sm text-zinc-400">
             View traditional art portfolio and gallery
           </p>
         </Link>
