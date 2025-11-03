@@ -129,7 +129,7 @@ export default async function ProjectPage({ params }: Props) {
             />
           </div>
         )}
-ertgfrgyrgurtyuyt
+
         {/* Overlapping Header Content */}
         <div className="relative -mt-[50%] pb-16">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
