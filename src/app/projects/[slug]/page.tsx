@@ -152,7 +152,7 @@ export default async function ProjectPage({ params }: Props) {
                   })}
                 </time>
               </div>
-              <h1 className="mt-2 text-4xl font-bold tracking-tight text-white">
+              <h1 className="mt-6 mb-8 text-[3rem] font-bold leading-tight tracking-tight text-white">
                 {project.title}
               </h1>
               <p className="mt-4 text-lg text-zinc-300">
