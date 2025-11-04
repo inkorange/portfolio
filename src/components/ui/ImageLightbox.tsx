@@ -51,7 +51,7 @@ export default function ImageLightbox({ src, alt, width, height, onClose }: Imag
       </button>
 
       <div
-        className="relative max-h-[75vh] w-[50vw]"
+        className="relative max-h-[75vh] w-[90vw]"
         onClick={(e) => e.stopPropagation()}
       >
         <Image
@@ -60,7 +60,7 @@ export default function ImageLightbox({ src, alt, width, height, onClose }: Imag
           width={width}
           height={height}
           className="h-auto max-h-[75vh] w-full object-contain"
-          sizes="50vw"
+          sizes="90vw"
         />
         {alt && (
           <p className="mt-4 text-center text-sm text-white">{alt}</p>

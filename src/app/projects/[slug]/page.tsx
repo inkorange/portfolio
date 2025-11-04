@@ -132,7 +132,7 @@ export default async function ProjectPage({ params }: Props) {
 
         {/* Overlapping Header Content */}
         <div className="relative -mt-[50%] pb-16">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <div className="rounded-lg bg-black/90 p-8 sm:p-12">
               <div className="flex items-center gap-3 text-sm">
                 <span className={`rounded-full px-3 py-1 text-xs font-medium ${
@@ -222,7 +222,7 @@ export default async function ProjectPage({ params }: Props) {
                 previous={previousProject}
                 next={nextProject}
                 basePath="/projects"
-                viewAllPath={project.type === "UI" ? "/projects/ui" : "/projects/art"}
+                viewAllPath={project.type === "UI" ? "/projects/tech" : "/projects/art"}
                 viewAllLabel={project.type === "UI" ? "Technology" : "Traditional Art"}
               />
             </div>

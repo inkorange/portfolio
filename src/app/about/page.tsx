@@ -2,6 +2,7 @@ import Image from "next/image";
 import { getAbout } from "@/lib/sanity/fetch";
 import { urlFor } from "@/lib/sanity/image";
 import PortableText from "@/components/ui/PortableText";
+import SocialIcon from "@/components/ui/SocialIcon";
 
 export const metadata = {
   title: "About - Chris West",
@@ -12,7 +13,7 @@ export default async function AboutPage() {
   const about = await getAbout();
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mb-12">
         <h1 className="text-4xl font-bold tracking-tight text-white">
           About
@@ -80,9 +81,10 @@ export default async function AboutPage() {
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-zinc-300 hover:text-white"
+                      className="flex items-center gap-2 text-zinc-300 hover:text-white transition-colors"
                     >
-                      {link.platform}
+                      <SocialIcon platform={link.platform} />
+                      <span className="capitalize">{link.platform}</span>
                     </a>
                   ))}
                 </div>

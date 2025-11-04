@@ -1,8 +1,12 @@
 import Link from "next/link";
+import { getAbout } from "@/lib/sanity/fetch";
+import SocialIcon from "@/components/ui/SocialIcon";
 
 const currentYear = new Date().getFullYear();
 
-export default function Footer() {
+export default async function Footer() {
+  const about = await getAbout();
+
   return (
     <footer className="border-t border-zinc-800 bg-black">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -33,7 +37,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/projects/ui"
+                  href="/projects/tech"
                   className="text-sm text-zinc-400 hover:text-zinc-50"
                 >
                   Technology
@@ -50,14 +54,32 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Social Links - Placeholder */}
+          {/* Social Links */}
           <div>
             <h3 className="text-sm font-semibold text-zinc-50">
               Connect
             </h3>
-            <p className="mt-2 text-sm text-zinc-400">
-              Social links will be populated from CMS
-            </p>
+            {about?.socialLinks && about.socialLinks.length > 0 ? (
+              <ul className="mt-2 space-y-2">
+                {about.socialLinks.map((link) => (
+                  <li key={link.platform}>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-50 transition-colors"
+                    >
+                      <SocialIcon platform={link.platform} />
+                      <span className="capitalize">{link.platform}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-2 text-sm text-zinc-400">
+                Social links will be populated from CMS
+              </p>
+            )}
           </div>
         </div>
 
