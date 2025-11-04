@@ -28,10 +28,10 @@ export default async function Home() {
             return (
               <Link
                 href={`/projects/${item.slug.current}`}
-                className="group mb-12 block overflow-hidden rounded-lg border border-zinc-200 bg-black/75 transition-all hover:shadow-lg dark:border-zinc-800"
+                className="group mb-12 block overflow-hidden rounded-lg border border-zinc-800 bg-black/75 transition-all hover:shadow-lg"
               >
                 {item.featuredImage && (
-                  <div className="relative aspect-[21/9] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+                  <div className="relative aspect-[21/11] md:aspect-[21/9] w-full overflow-hidden bg-zinc-900">
                     <Image
                       src={urlFor(item.featuredImage).width(1400).height(600).url()}
                       alt={item.featuredImage.alt || item.title}
@@ -84,31 +84,28 @@ export default async function Home() {
             );
           })()}
 
-          {/* Remaining Recent Articles - List Layout with Thumbnails */}
+          {/* Remaining Recent Articles - Grid Layout */}
           {feed.recent.length > 1 && (
-            <div className="space-y-6">
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {feed.recent.slice(1, 10).map((item: any) => (
                 <Link
                   key={item._id}
                   href={`/projects/${item.slug.current}`}
-                  className="group flex gap-6 overflow-hidden rounded-lg border border-zinc-200 bg-black/75 transition-all hover:shadow-md dark:border-zinc-800"
+                  className="group block overflow-hidden rounded-lg border border-zinc-800 bg-black/75 transition-all hover:shadow-md"
                 >
-                  {/* Thumbnail Image on Left */}
                   {item.featuredImage && (
-                    <div className="relative h-32 w-48 flex-shrink-0 overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-900">
                       <Image
-                        src={urlFor(item.featuredImage).width(400).height(300).url()}
+                        src={urlFor(item.featuredImage).width(600).height(400).url()}
                         alt={item.featuredImage.alt || item.title}
                         fill
                         loading="lazy"
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        sizes="192px"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                       />
                     </div>
                   )}
-
-                  {/* Content on Right */}
-                  <div className="flex flex-1 flex-col justify-center py-4 pr-6">
+                  <div className="p-6">
                     <div className="flex items-center gap-2 text-xs">
                       <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${
                         item.type === "UI"
@@ -118,16 +115,8 @@ export default async function Home() {
                         {item.type === "UI" ? "Tech" : item.type}
                       </span>
                       <span className="text-zinc-300">By {item.author || "Chris West"}</span>
-                      <span className="text-zinc-400">•</span>
-                      <time className="text-zinc-400">
-                        {new Date(item.publishedDate).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })}
-                      </time>
                     </div>
-                    <h3 className="mt-1 text-base font-semibold text-white sm:text-lg lg:text-xl">
+                    <h3 className="mt-2 text-xl font-semibold text-white">
                       {item.title}
                     </h3>
                     <p className="mt-2 line-clamp-2 text-sm text-zinc-300">
@@ -144,7 +133,7 @@ export default async function Home() {
       {/* Quick Links */}
       <div className="grid gap-6 md:grid-cols-2">
         <Link
-          href="/projects/ui"
+          href="/projects/tech"
           className="group rounded-lg border border-zinc-800 p-6 transition-colors hover:bg-zinc-900"
         >
           <h3 className="text-lg font-semibold text-zinc-50">
