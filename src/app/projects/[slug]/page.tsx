@@ -5,6 +5,7 @@ import { urlFor } from "@/lib/sanity/image";
 import PortableText from "@/components/ui/PortableText";
 import ArticleNavigation from "@/components/ui/ArticleNavigation";
 import SocialShare from "@/components/ui/SocialShare";
+import CommentsSection from "@/components/comments/CommentsSection";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -225,6 +226,9 @@ export default async function ProjectPage({ params }: Props) {
                 viewAllPath={project.type === "UI" ? "/projects/tech" : "/projects/art"}
                 viewAllLabel={project.type === "UI" ? "Technology" : "Traditional Art"}
               />
+
+              {/* Comments Section */}
+              <CommentsSection projectSlug={slug} />
             </div>
           </div>
         </div>

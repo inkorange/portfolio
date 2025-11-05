@@ -29,27 +29,52 @@ export default async function AboutPage() {
       ) : (
         <div className="rounded-lg bg-black/90 p-8 sm:p-12">
           <div className="space-y-8">
-            {/* Profile Image */}
-            {about.profileImage && (
-              <div className="flex justify-center">
-                <div className="relative h-48 w-48 overflow-hidden rounded-full">
-                  <Image
-                    src={urlFor(about.profileImage).width(400).height(400).url()}
-                    alt={about.profileImage.alt || "Profile"}
-                    fill
-                    className="object-cover"
-                    sizes="192px"
-                  />
+            {/* Profile Image and Bio */}
+            <div className="flex flex-col md:flex-row gap-8">
+              {/* Profile Image */}
+              {about.profileImage && (
+                <div className="flex-shrink-0">
+                  <div className="relative h-48 w-48 overflow-hidden rounded-full">
+                    <Image
+                      src={urlFor(about.profileImage).width(400).height(400).url()}
+                      alt={about.profileImage.alt || "Profile"}
+                      fill
+                      className="object-cover"
+                      sizes="192px"
+                    />
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Bio Content */}
-            {about.bio && (
-              <div className="prose prose-zinc prose-invert max-w-none">
-                <PortableText value={about.bio} />
-              </div>
-            )}
+              {/* Bio Content */}
+              {about.bio && (
+                <div className="flex-1 prose prose-zinc prose-invert max-w-none">
+                  <PortableText value={about.bio} />
+
+                  {about.socialLinks && about.socialLinks.length > 0 && (
+                    <div>
+                      <h2 className="text-2xl font-semibold text-white">
+                        Connect
+                      </h2>
+                      <div className="mt-4 flex flex-wrap gap-4">
+                        {about.socialLinks.map((link) => (
+                          <a
+                            key={link.platform}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 text-zinc-300 hover:text-white transition-colors"
+                          >
+                            <SocialIcon platform={link.platform} />
+                            <span className="capitalize">{link.platform}</span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
 
             {about.skills && about.skills.length > 0 && (
               <div>
@@ -69,27 +94,7 @@ export default async function AboutPage() {
               </div>
             )}
 
-            {about.socialLinks && about.socialLinks.length > 0 && (
-              <div>
-                <h2 className="text-2xl font-semibold text-white">
-                  Connect
-                </h2>
-                <div className="mt-4 flex flex-wrap gap-4">
-                  {about.socialLinks.map((link) => (
-                    <a
-                      key={link.platform}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-zinc-300 hover:text-white transition-colors"
-                    >
-                      <SocialIcon platform={link.platform} />
-                      <span className="capitalize">{link.platform}</span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            )}
+            
           </div>
         </div>
       )}
