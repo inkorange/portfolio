@@ -28,8 +28,12 @@ export const metadata: Metadata = {
   creator: "Chris West",
   publisher: "Chris West",
   icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.png", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+    shortcut: "/favicon.ico",
   },
   openGraph: {
     title: "Chris West - Engineering & Art Portfolio",
