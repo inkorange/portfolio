@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { getHomepageFeed } from "@/lib/sanity/fetch";
 import { urlFor } from "@/lib/sanity/image";
+import { calculateReadingTime, formatReadingTime } from "@/lib/utils/readingTime";
+import FadeIn from "@/components/ui/FadeIn";
 
 export default async function Home() {
   const feed = await getHomepageFeed();
@@ -9,14 +11,14 @@ export default async function Home() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       {/* Hero Section */}
-      <div className="mb-16 text-center">
+      <FadeIn className="mb-16 text-center">
         <h1 className="text-3xl font-bold tracking-tight text-zinc-50 sm:text-5xl lg:text-6xl">
           Engineering and Art Reflections
         </h1>
         <p className="mt-6 text-xl text-zinc-400">
           from the mind of a seasoned tech leader
         </p>
-      </div>
+      </FadeIn>
 
       {/* Recent Articles */}
       {feed?.recent && feed.recent.length > 0 && (
@@ -26,10 +28,11 @@ export default async function Home() {
             const item = feed.recent[0];
 
             return (
-              <Link
-                href={`/projects/${item.slug.current}`}
-                className="group mb-12 block overflow-hidden rounded-lg border border-zinc-800 bg-black/75 transition-all hover:shadow-lg"
-              >
+              <FadeIn delay={100}>
+                <Link
+                  href={`/projects/${item.slug.current}`}
+                  className="group mb-12 block overflow-hidden rounded-lg border border-zinc-800 bg-black/75 transition-all hover:shadow-lg"
+                >
                 {item.featuredImage && (
                   <div className="relative aspect-[21/11] md:aspect-[21/9] w-full overflow-hidden bg-zinc-900">
                     <Image
@@ -43,7 +46,7 @@ export default async function Home() {
                   </div>
                 )}
                 <div className="p-8">
-                  <div className="flex items-center gap-3 text-sm">
+                  <div className="flex items-center gap-3 text-sm flex-wrap">
                     <span className={`rounded-full px-3 py-1 text-xs font-medium ${
                       item.type === "UI"
                         ? "bg-blue-500/20 text-blue-300"
@@ -60,6 +63,10 @@ export default async function Home() {
                         day: "numeric",
                       })}
                     </time>
+                    <span className="text-zinc-400">•</span>
+                    <span className="text-zinc-400">
+                      {formatReadingTime(calculateReadingTime(item.description))}
+                    </span>
                   </div>
                   <h3 className="mt-2 text-xl font-bold text-white sm:text-2xl lg:text-3xl">
                     {item.title}
@@ -81,18 +88,19 @@ export default async function Home() {
                   )}
                 </div>
               </Link>
+              </FadeIn>
             );
           })()}
 
           {/* Remaining Recent Articles - Grid Layout */}
           {feed.recent.length > 1 && (
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {feed.recent.slice(1, 10).map((item: any) => (
-                <Link
-                  key={item._id}
-                  href={`/projects/${item.slug.current}`}
-                  className="group block overflow-hidden rounded-lg border border-zinc-800 bg-black/75 transition-all hover:shadow-md"
-                >
+              {feed.recent.slice(1, 10).map((item: any, index: number) => (
+                <FadeIn key={item._id} delay={200 + index * 100}>
+                  <Link
+                    href={`/projects/${item.slug.current}`}
+                    className="group block overflow-hidden rounded-lg border border-zinc-800 bg-black/75 transition-all hover:shadow-md"
+                  >
                   {item.featuredImage && (
                     <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-900">
                       <Image
@@ -106,7 +114,7 @@ export default async function Home() {
                     </div>
                   )}
                   <div className="p-6">
-                    <div className="flex items-center gap-2 text-xs">
+                    <div className="flex items-center gap-2 text-xs flex-wrap">
                       <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${
                         item.type === "UI"
                           ? "bg-blue-500/20 text-blue-300"
@@ -115,6 +123,10 @@ export default async function Home() {
                         {item.type === "UI" ? "Tech" : item.type}
                       </span>
                       <span className="text-zinc-300">By {item.author || "Chris West"}</span>
+                      <span className="text-zinc-400">•</span>
+                      <span className="text-zinc-400">
+                        {formatReadingTime(calculateReadingTime(item.description))}
+                      </span>
                     </div>
                     <h3 className="mt-2 text-xl font-semibold text-white">
                       {item.title}
@@ -124,6 +136,7 @@ export default async function Home() {
                     </p>
                   </div>
                 </Link>
+                </FadeIn>
               ))}
             </div>
           )}
@@ -131,7 +144,7 @@ export default async function Home() {
       )}
 
       {/* Quick Links */}
-      <div className="grid gap-6 md:grid-cols-2">
+      <FadeIn delay={300} className="grid gap-6 md:grid-cols-2">
         <Link
           href="/projects/tech"
           className="group rounded-lg border border-zinc-800 p-6 transition-colors hover:bg-zinc-900"
@@ -155,7 +168,7 @@ export default async function Home() {
             View traditional art portfolio and gallery
           </p>
         </Link>
-      </div>
+      </FadeIn>
     </div>
   );
 }

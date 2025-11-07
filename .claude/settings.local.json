@@ -16,7 +16,8 @@
       "Bash(npm run dev:*)",
       "Bash(lsof:*)",
       "Bash(kill:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(xargs kill:*)"
     ],
     "deny": [],
     "ask": []

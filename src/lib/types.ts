@@ -1,4 +1,5 @@
 // Content type definitions for portfolio site
+import type { PortableTextBlock } from "next-sanity";
 
 export type ProjectType = "UI" | "Art";
 
@@ -25,7 +26,7 @@ export interface Project {
   summary: string;
   author: string;
   keywords?: string;
-  description?: string; // Rich text content
+  description?: PortableTextBlock[]; // Rich text content
   images: ImageAsset[];
   featuredImage: ImageAsset;
   tags: string[];
@@ -44,7 +45,7 @@ export interface BlogPost {
   excerpt: string;
   author: string;
   keywords?: string;
-  content: string; // Rich text content
+  content: PortableTextBlock[]; // Rich text content
   coverImage?: ImageAsset;
   publishedDate: string;
   tags: string[];
@@ -60,7 +61,7 @@ export interface SocialLink {
 export interface About {
   _id: string;
   _type: "about";
-  bio: string; // Rich text content
+  bio: PortableTextBlock[]; // Rich text content
   profileImage?: ImageAsset;
   skills: string[];
   socialLinks: SocialLink[];

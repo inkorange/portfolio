@@ -1,11 +1,13 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getProjectBySlug, getAllProjectSlugs, getNextProject, getPreviousProject } from "@/lib/sanity/fetch";
+import { getProjectBySlug, getAllProjectSlugs, getNextProject, getPreviousProject, getRelatedProjects } from "@/lib/sanity/fetch";
 import { urlFor } from "@/lib/sanity/image";
 import PortableText from "@/components/ui/PortableText";
 import ArticleNavigation from "@/components/ui/ArticleNavigation";
 import SocialShare from "@/components/ui/SocialShare";
 import CommentsSection from "@/components/comments/CommentsSection";
+import RelatedArticles from "@/components/ui/RelatedArticles";
+import { calculateReadingTime, formatReadingTime } from "@/lib/utils/readingTime";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -81,6 +83,14 @@ export default async function ProjectPage({ params }: Props) {
   const nextProject = await getNextProject(project.publishedDate, project.type);
   const previousProject = await getPreviousProject(project.publishedDate, project.type);
 
+  // Fetch related projects
+  const relatedProjects = await getRelatedProjects(
+    project._id,
+    project.tags || [],
+    project.type,
+    3
+  );
+
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chriswest.tech';
   const canonicalUrl = `${siteUrl}/projects/${slug}`;
 
@@ -133,9 +143,9 @@ export default async function ProjectPage({ params }: Props) {
 
         {/* Overlapping Header Content */}
         <div className="relative -mt-[50%] pb-16">
-          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-            <div className="rounded-lg bg-black/90 p-8 sm:p-12">
-              <div className="flex items-center gap-3 text-sm">
+          <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+            <div className="rounded-lg bg-black/90 p-6 sm:p-12">
+              <div className="flex items-center gap-3 text-sm flex-wrap">
                 <span className={`rounded-full px-3 py-1 text-xs font-medium ${
                   project.type === "UI"
                     ? "bg-blue-500/20 text-blue-300"
@@ -152,8 +162,12 @@ export default async function ProjectPage({ params }: Props) {
                     day: "numeric",
                   })}
                 </time>
+                <span className="text-zinc-400">•</span>
+                <span className="text-zinc-400">
+                  {formatReadingTime(calculateReadingTime(project.description))}
+                </span>
               </div>
-              <h1 className="mt-6 mb-8 text-[3rem] font-bold leading-tight tracking-tight text-white">
+              <h1 className="mt-6 mb-8 lg:mt-12 lg:mb-12 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight text-white">
                 {project.title}
               </h1>
               <p className="mt-4 text-lg text-zinc-300">
@@ -198,37 +212,52 @@ export default async function ProjectPage({ params }: Props) {
                 </div>
               )}
 
-              {/* Social Sharing */}
-              <div className="mt-6 border-t border-white/10 py-6">
-                <SocialShare
-                  url={canonicalUrl}
-                  title={project.title}
-                  description={project.summary}
-                />
-              </div>
+              {/* Article Content with Sidebar Layout */}
+              <div className="mt-6 border-t border-white/10 pt-8">
+                <div className="flex flex-col lg:flex-row gap-12">
+                  {/* Main Column - Article Content, Navigation, Comments */}
+                  <div className="flex-1 min-w-0 max-w-[1100px]">
+                    {/* Article Content */}
+                    {project.description && (
+                      <div className="prose prose-zinc prose-invert max-w-none">
+                        <PortableText value={project.description} galleryImages={project.images} />
+                      </div>
+                    )}
+                    {/* Clear float */}
+                    <div className="clear-both" />
 
-              {/* Main Article Content with Gallery Images */}
-              {project.description && (
-                <div className="border-t border-white/10 pt-8">
-                  <div className="prose prose-zinc prose-invert max-w-none">
-                    <PortableText value={project.description} galleryImages={project.images} />
+                    {/* Navigation Links */}
+                    <ArticleNavigation
+                      previous={previousProject}
+                      next={nextProject}
+                      basePath="/projects"
+                      viewAllPath={project.type === "UI" ? "/projects/tech" : "/projects/art"}
+                      viewAllLabel={project.type === "UI" ? "Technology" : "Traditional Art"}
+                    />
+
+                    {/* Comments Section */}
+                    <CommentsSection projectSlug={slug} />
                   </div>
-                  {/* Clear float */}
-                  <div className="clear-both" />
+
+                  {/* Sidebar - Social Share & Related Articles */}
+                  <aside className="w-full lg:w-80 flex-shrink-0">
+                    <div className="lg:sticky lg:top-20">
+                      {/* Social Sharing */}
+                      <div className="mb-6 rounded-lg border border-white/10 bg-white/5 p-6">
+                        <h3 className="mb-4 text-lg font-semibold text-white">Share</h3>
+                        <SocialShare
+                          url={canonicalUrl}
+                          title={project.title}
+                          description={project.summary}
+                        />
+                      </div>
+
+                      {/* Related Articles */}
+                      <RelatedArticles articles={relatedProjects} />
+                    </div>
+                  </aside>
                 </div>
-              )}
-
-              {/* Navigation Links */}
-              <ArticleNavigation
-                previous={previousProject}
-                next={nextProject}
-                basePath="/projects"
-                viewAllPath={project.type === "UI" ? "/projects/tech" : "/projects/art"}
-                viewAllLabel={project.type === "UI" ? "Technology" : "Traditional Art"}
-              />
-
-              {/* Comments Section */}
-              <CommentsSection projectSlug={slug} />
+              </div>
             </div>
           </div>
         </div>
