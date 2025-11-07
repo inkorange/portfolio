@@ -35,6 +35,30 @@ const createComponents = (galleryImages?: ImageAsset[]) => {
         </pre>
       );
     },
+    table: ({ value }: any) => {
+      if (!value?.rows) return null;
+
+      return (
+        <div className="my-8 overflow-x-auto">
+          <table className="min-w-full border-collapse border border-white/20">
+            <tbody>
+              {value.rows.map((row: any, rowIndex: number) => (
+                <tr key={rowIndex}>
+                  {row.cells.map((cell: string, cellIndex: number) => (
+                    <td
+                      key={cellIndex}
+                      className="border border-white/20 px-4 py-2 text-white"
+                    >
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    },
   },
   marks: {
     link: ({ children, value }: any) => {

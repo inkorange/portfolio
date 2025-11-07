@@ -83,7 +83,7 @@ export const projectBySlugQuery = (slug: string) => groq`
 `;
 
 export const nextProjectQuery = (publishedDate: string, type: string) => groq`
-  *[_type == "project" && type == "${type}" && publishedDate > "${publishedDate}"] | order(publishedDate asc) [0] {
+  *[_type == "project" && type == "${type}" && publishedDate < "${publishedDate}"] | order(publishedDate desc) [0] {
     _id,
     title,
     slug,
@@ -95,7 +95,7 @@ export const nextProjectQuery = (publishedDate: string, type: string) => groq`
 `;
 
 export const previousProjectQuery = (publishedDate: string, type: string) => groq`
-  *[_type == "project" && type == "${type}" && publishedDate < "${publishedDate}"] | order(publishedDate desc) [0] {
+  *[_type == "project" && type == "${type}" && publishedDate > "${publishedDate}"] | order(publishedDate asc) [0] {
     _id,
     title,
     slug,
@@ -127,7 +127,7 @@ export const blogPostBySlugQuery = (slug: string) => groq`
 `;
 
 export const nextBlogPostQuery = (publishedDate: string) => groq`
-  *[_type == "blogPost" && publishedDate > "${publishedDate}"] | order(publishedDate asc) [0] {
+  *[_type == "blogPost" && publishedDate < "${publishedDate}"] | order(publishedDate desc) [0] {
     _id,
     title,
     slug,
@@ -138,7 +138,7 @@ export const nextBlogPostQuery = (publishedDate: string) => groq`
 `;
 
 export const previousBlogPostQuery = (publishedDate: string) => groq`
-  *[_type == "blogPost" && publishedDate < "${publishedDate}"] | order(publishedDate desc) [0] {
+  *[_type == "blogPost" && publishedDate > "${publishedDate}"] | order(publishedDate asc) [0] {
     _id,
     title,
     slug,
@@ -182,6 +182,7 @@ export const homepageFeedQuery = groq`
       featured,
       type,
       summary,
+      description,
       "featuredImage": featuredImage {
         ${imageFragment}
       },
@@ -207,6 +208,25 @@ export const aboutQuery = groq`
     }
   }
 `;
+
+// Related Projects Query (by matching tags)
+export const relatedProjectsQuery = (projectId: string, tags: string[], type: string, limit: number = 3) => {
+  const tagsFilter = tags.length > 0 ? `&& count((tags[])[@ in ${JSON.stringify(tags)}]) > 0` : '';
+  return groq`
+    *[_type == "project" && _id != "${projectId}" && type == "${type}" ${tagsFilter}] | order(publishedDate desc) [0...${limit}] {
+      _id,
+      title,
+      slug,
+      type,
+      summary,
+      publishedDate,
+      "featuredImage": featuredImage {
+        ${imageFragment}
+      },
+      tags
+    }
+  `;
+};
 
 // Utility Queries
 

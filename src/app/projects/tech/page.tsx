@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { getProjectsByType } from "@/lib/sanity/fetch";
 import { urlFor } from "@/lib/sanity/image";
+import { calculateReadingTime, formatReadingTime } from "@/lib/utils/readingTime";
+import FadeIn from "@/components/ui/FadeIn";
 
 export const metadata = {
   title: "Technology Projects | Chris West",
@@ -25,14 +27,14 @@ export default async function UIProjectsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mb-12">
+      <FadeIn className="mb-12">
         <h1 className="text-4xl font-bold tracking-tight text-zinc-50">
           Technology Projects
         </h1>
         <p className="mt-4 text-lg text-zinc-400">
           Software engineering tools and technology designs
         </p>
-      </div>
+      </FadeIn>
 
       {projects.length === 0 ? (
         <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-12 text-center">
@@ -42,12 +44,12 @@ export default async function UIProjectsPage() {
         </div>
       ) : (
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
-            <Link
-              key={project._id}
-              href={`/projects/${project.slug.current}`}
-              className="group block overflow-hidden rounded-lg border border-zinc-800 bg-black/75 transition-all hover:shadow-md"
-            >
+          {projects.map((project, index) => (
+            <FadeIn key={project._id} delay={index * 100}>
+              <Link
+                href={`/projects/${project.slug.current}`}
+                className="group block overflow-hidden rounded-lg border border-zinc-800 bg-black/75 transition-all hover:shadow-md"
+              >
               {project.featuredImage && (
                 <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-900">
                   <Image
@@ -60,6 +62,9 @@ export default async function UIProjectsPage() {
                 </div>
               )}
               <div className="p-6">
+                <div className="flex items-center gap-2 text-xs text-zinc-400 mb-2">
+                  <span>{formatReadingTime(calculateReadingTime(project.description))}</span>
+                </div>
                 <h3 className="text-xl font-semibold text-white">
                   {project.title}
                 </h3>
@@ -80,6 +85,7 @@ export default async function UIProjectsPage() {
                 )}
               </div>
             </Link>
+            </FadeIn>
           ))}
         </div>
       )}

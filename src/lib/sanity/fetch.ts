@@ -6,6 +6,7 @@ import {
   projectBySlugQuery,
   nextProjectQuery,
   previousProjectQuery,
+  relatedProjectsQuery,
   allBlogPostsQuery,
   featuredBlogPostsQuery,
   blogPostBySlugQuery,
@@ -77,6 +78,16 @@ export async function getPreviousProject(publishedDate: string, type: ProjectTyp
   } catch (error) {
     console.error(`Error fetching previous project:`, error);
     return null;
+  }
+}
+
+export async function getRelatedProjects(projectId: string, tags: string[], type: ProjectType, limit: number = 3): Promise<Project[]> {
+  if (!isSanityConfigured()) return [];
+  try {
+    return await client.fetch(relatedProjectsQuery(projectId, tags, type, limit), {}, { next: { revalidate: 60 } });
+  } catch (error) {
+    console.error(`Error fetching related projects:`, error);
+    return [];
   }
 }
 

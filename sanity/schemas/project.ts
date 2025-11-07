@@ -78,6 +78,10 @@ export default defineType({
             },
           ],
         },
+        {
+          type: "table",
+          title: "Table",
+        },
       ],
       description: "Full project description with rich text",
     }),
