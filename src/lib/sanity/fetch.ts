@@ -16,8 +16,10 @@ import {
   homepageFeedQuery,
   aboutQuery,
   allSlugsQuery,
+  allProductsQuery,
+  featuredProductsQuery,
 } from "./queries";
-import type { Project, BlogPost, About, ProjectType, ImageAsset } from "../types";
+import type { Project, BlogPost, About, ProjectType, ImageAsset, Product } from "../types";
 
 // Project fetching functions
 
@@ -174,6 +176,28 @@ export async function getAbout(): Promise<About | null> {
   } catch (error) {
     console.error("Error fetching about content:", error);
     return null;
+  }
+}
+
+// Product fetching functions
+
+export async function getAllProducts(): Promise<Product[]> {
+  if (!isSanityConfigured()) return [];
+  try {
+    return await client.fetch(allProductsQuery, {}, { next: { revalidate: 60 } });
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
+}
+
+export async function getFeaturedProducts(limit: number = 3): Promise<Product[]> {
+  if (!isSanityConfigured()) return [];
+  try {
+    return await client.fetch(featuredProductsQuery(limit), {}, { next: { revalidate: 60 } });
+  } catch (error) {
+    console.error("Error fetching featured products:", error);
+    return [];
   }
 }
 

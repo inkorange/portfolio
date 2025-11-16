@@ -228,6 +228,37 @@ export const relatedProjectsQuery = (projectId: string, tags: string[], type: st
   `;
 };
 
+// Product Queries
+
+const productFields = groq`
+  _id,
+  _type,
+  title,
+  summary,
+  "image": image {
+    ${imageFragment}
+  },
+  url_link,
+  "article_link": article_link-> {
+    _type,
+    _id,
+    title,
+    slug
+  }
+`;
+
+export const allProductsQuery = groq`
+  *[_type == "product"] | order(_createdAt desc) {
+    ${productFields}
+  }
+`;
+
+export const featuredProductsQuery = (limit: number = 3) => groq`
+  *[_type == "product"] | order(_createdAt desc) [0...${limit}] {
+    ${productFields}
+  }
+`;
+
 // Utility Queries
 
 export const allSlugsQuery = (type: "project" | "blogPost") => groq`
