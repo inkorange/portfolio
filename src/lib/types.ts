@@ -67,6 +67,21 @@ export interface About {
   socialLinks: SocialLink[];
 }
 
+export interface Product {
+  _id: string;
+  _type: "product";
+  title: string;
+  summary: string;
+  image: ImageAsset;
+  url_link: string;
+  article_link?: {
+    _type: "blogPost" | "project";
+    _id: string;
+    title: string;
+    slug: Slug;
+  };
+}
+
 // Combined type for homepage feed
 export type FeedItem = (Project | BlogPost) & {
   itemType: "project" | "blog";

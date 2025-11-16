@@ -1,12 +1,13 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { getProjectBySlug, getAllProjectSlugs, getNextProject, getPreviousProject, getRelatedProjects } from "@/lib/sanity/fetch";
+import { getProjectBySlug, getAllProjectSlugs, getNextProject, getPreviousProject, getRelatedProjects, getFeaturedProducts } from "@/lib/sanity/fetch";
 import { urlFor } from "@/lib/sanity/image";
 import PortableText from "@/components/ui/PortableText";
 import ArticleNavigation from "@/components/ui/ArticleNavigation";
 import SocialShare from "@/components/ui/SocialShare";
 import CommentsSection from "@/components/comments/CommentsSection";
 import RelatedArticles from "@/components/ui/RelatedArticles";
+import ProductShowcase from "@/components/ui/ProductShowcase";
 import { calculateReadingTime, formatReadingTime } from "@/lib/utils/readingTime";
 
 type Props = {
@@ -90,6 +91,9 @@ export default async function ProjectPage({ params }: Props) {
     project.type,
     3
   );
+
+  // Fetch featured products
+  const products = await getFeaturedProducts(3);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chriswest.tech';
   const canonicalUrl = `${siteUrl}/projects/${slug}`;
@@ -204,9 +208,11 @@ export default async function ProjectPage({ params }: Props) {
                       href={project.externalLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/20"
+                      aria-label={`View project ${project.title} (opens in new tab)`}
+                      className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-indigo-600 via-violet-600 to-sky-500 px-4 py-2 text-sm font-semibold text-white shadow-md transition-transform transform hover:-translate-y-0.5 hover:scale-[1.01] active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-indigo-500/25"
                     >
-                      View Project
+                      <span>View Project</span>
+                      <span aria-hidden="true" className="ml-1 text-sm">↗</span>
                     </a>
                   )}
                 </div>
@@ -239,11 +245,11 @@ export default async function ProjectPage({ params }: Props) {
                     <CommentsSection projectSlug={slug} />
                   </div>
 
-                  {/* Sidebar - Social Share & Related Articles */}
+                  {/* Sidebar - Social Share, Related Articles & Product Showcase */}
                   <aside className="w-full lg:w-80 flex-shrink-0">
-                    <div className="lg:sticky lg:top-20">
+                    <div className="lg:sticky lg:top-20 space-y-6">
                       {/* Social Sharing */}
-                      <div className="mb-6 rounded-lg border border-white/10 bg-white/5 p-6">
+                      <div className="rounded-lg border border-white/10 bg-white/5 p-6">
                         <h3 className="mb-4 text-lg font-semibold text-white">Share</h3>
                         <SocialShare
                           url={canonicalUrl}
@@ -254,6 +260,9 @@ export default async function ProjectPage({ params }: Props) {
 
                       {/* Related Articles */}
                       <RelatedArticles articles={relatedProjects} />
+
+                      {/* Product Showcase */}
+                      <ProductShowcase products={products} />
                     </div>
                   </aside>
                 </div>
