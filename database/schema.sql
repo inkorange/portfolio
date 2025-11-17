@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS comments (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   project_slug TEXT NOT NULL,
   author_name TEXT NOT NULL,
-  author_email TEXT NOT NULL,
+  author_email TEXT, -- Optional - kept in schema for future use
   content TEXT NOT NULL,
   status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE, -- For future auth integration
