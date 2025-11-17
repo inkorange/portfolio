@@ -2,7 +2,7 @@ export interface Comment {
   id: string;
   project_slug: string;
   author_name: string;
-  author_email: string;
+  author_email?: string;
   content: string;
   status: 'pending' | 'approved' | 'rejected';
   user_id?: string;
@@ -14,7 +14,7 @@ export interface Comment {
 
 export interface CommentFormData {
   author_name: string;
-  author_email: string;
+  author_email?: string;
   content: string;
   project_slug: string;
 }

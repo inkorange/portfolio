@@ -13,21 +13,72 @@ function isValidContent(content: string): boolean {
   return trimmed.length >= 10 && trimmed.length <= 2000;
 }
 
+// Verify Cloudflare Turnstile token
+async function verifyTurnstileToken(token: string): Promise<boolean> {
+  const secretKey = process.env.TURNSTILE_SECRET_KEY;
+
+  if (!secretKey) {
+    console.warn('TURNSTILE_SECRET_KEY not configured, skipping verification');
+    return true; // Allow comments if Turnstile is not configured
+  }
+
+  try {
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        secret: secretKey,
+        response: token,
+      }),
+    });
+
+    const data = await response.json();
+    return data.success === true;
+  } catch (error) {
+    console.error('Error verifying Turnstile token:', error);
+    return false;
+  }
+}
+
 // POST - Submit a new comment
 export async function POST(request: NextRequest) {
   try {
+    // Verify Turnstile token if configured
+    const turnstileToken = request.headers.get('X-Turnstile-Token');
+    const hasTurnstileConfigured = !!process.env.TURNSTILE_SECRET_KEY;
+
+    if (hasTurnstileConfigured) {
+      if (!turnstileToken) {
+        return NextResponse.json(
+          { error: 'Verification token is required' },
+          { status: 400 }
+        );
+      }
+
+      const isValid = await verifyTurnstileToken(turnstileToken);
+      if (!isValid) {
+        return NextResponse.json(
+          { error: 'Verification failed. Please try again.' },
+          { status: 403 }
+        );
+      }
+    }
+
     const body: CommentFormData = await request.json();
     const { project_slug, author_name, author_email, content } = body;
 
     // Validation
-    if (!project_slug || !author_name || !author_email || !content) {
+    if (!project_slug || !author_name || !content) {
       return NextResponse.json(
-        { error: 'All fields are required' },
+        { error: 'Project slug, name, and content are required' },
         { status: 400 }
       );
     }
 
-    if (!isValidEmail(author_email)) {
+    // Validate email only if provided
+    if (author_email && !isValidEmail(author_email)) {
       return NextResponse.json(
         { error: 'Invalid email address' },
         { status: 400 }
@@ -45,18 +96,25 @@ export async function POST(request: NextRequest) {
     const ip_address = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
     const user_agent = request.headers.get('user-agent') || 'unknown';
 
+    // Prepare insert data
+    const insertData: any = {
+      project_slug,
+      author_name: author_name.trim(),
+      content: content.trim(),
+      status: 'approved', // Auto-approve all comments
+      ip_address,
+      user_agent,
+    };
+
+    // Only include email if provided
+    if (author_email) {
+      insertData.author_email = author_email.trim().toLowerCase();
+    }
+
     // Insert comment (auto-approved for now)
     const { data, error } = await supabaseAdmin
       .from('comments')
-      .insert({
-        project_slug,
-        author_name: author_name.trim(),
-        author_email: author_email.trim().toLowerCase(),
-        content: content.trim(),
-        status: 'approved', // Auto-approve all comments
-        ip_address,
-        user_agent,
-      })
+      .insert(insertData)
       .select()
       .single();
 
