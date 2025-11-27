@@ -51,6 +51,14 @@ export default async function Footer() {
                   Traditional Art
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/featured-projects"
+                  className="text-sm text-zinc-400 hover:text-zinc-50"
+                >
+                  Featured Projects
+                </Link>
+              </li>
             </ul>
           </div>
 
