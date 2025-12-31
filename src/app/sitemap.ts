@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next'
 import { client } from '@/lib/sanity/client'
 
+export const revalidate = 3600 // Revalidate every hour
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Use environment variable for deployed domain, fallback for local dev
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
@@ -8,6 +10,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch all projects
   const projects = await client.fetch(`
     *[_type == "project" && defined(slug.current)] {
+      "slug": slug.current,
+      "updatedAt": _updatedAt,
+      publishedDate
+    }
+  `)
+
+  // Fetch all blog posts
+  const blogPosts = await client.fetch(`
+    *[_type == "blogPost" && defined(slug.current)] {
       "slug": slug.current,
       "updatedAt": _updatedAt,
       publishedDate
@@ -46,6 +57,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly' as const,
       priority: 0.9,
     },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'daily' as const,
+      priority: 0.9,
+    },
   ]
 
   // Project pages
@@ -56,5 +73,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  return [...staticPages, ...projectPages]
+  // Blog post pages
+  const blogPages = blogPosts.map((post: { slug: string; updatedAt: string; publishedDate: string }) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.updatedAt || post.publishedDate),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  return [...staticPages, ...projectPages, ...blogPages]
 }
