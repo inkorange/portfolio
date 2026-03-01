@@ -18,6 +18,7 @@ import {
   allSlugsQuery,
   allProductsQuery,
   featuredProductsQuery,
+  productBySlugQuery,
 } from "./queries";
 import type { Project, BlogPost, About, ProjectType, ImageAsset, Product } from "../types";
 
@@ -201,6 +202,16 @@ export async function getFeaturedProducts(limit: number = 3): Promise<Product[]>
   }
 }
 
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  if (!isSanityConfigured()) return null;
+  try {
+    return await client.fetch(productBySlugQuery(slug), {}, { next: { revalidate: 60 } });
+  } catch (error) {
+    console.error(`Error fetching product ${slug}:`, error);
+    return null;
+  }
+}
+
 // Utility functions for generating static paths
 
 export async function getAllProjectSlugs(): Promise<string[]> {
@@ -229,6 +240,21 @@ export async function getAllBlogPostSlugs(): Promise<string[]> {
     return slugs.map((item) => item.slug);
   } catch (error) {
     console.error("Error fetching blog post slugs:", error);
+    return [];
+  }
+}
+
+export async function getAllProductSlugs(): Promise<string[]> {
+  if (!isSanityConfigured()) return [];
+  try {
+    const slugs = await client.fetch<{ slug: string }[]>(
+      allSlugsQuery("product"),
+      {},
+      { next: { revalidate: 3600 } }
+    );
+    return slugs.map((item) => item.slug);
+  } catch (error) {
+    console.error("Error fetching product slugs:", error);
     return [];
   }
 }

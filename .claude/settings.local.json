@@ -17,7 +17,9 @@
       "Bash(lsof:*)",
       "Bash(kill:*)",
       "Bash(find:*)",
-      "Bash(xargs kill:*)"
+      "Bash(xargs kill:*)",
+      "Bash(ls -la /Users/christopherwest/web/portfolio/src/app/products/[slug]/)",
+      "Bash(npx next build)"
     ],
     "deny": [],
     "ask": []

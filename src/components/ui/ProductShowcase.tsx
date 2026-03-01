@@ -25,21 +25,41 @@ export default function ProductShowcase({ products }: ProductShowcaseProps) {
               {/* Product Image */}
               {product.image && (
                 <div className="relative aspect-video w-full overflow-hidden bg-zinc-900">
-                  <Image
-                    src={urlFor(product.image).width(400).height(225).url()}
-                    alt={product.image.alt || product.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    sizes="400px"
-                  />
+                  {product.slug ? (
+                    <Link href={`/project/${product.slug.current}`}>
+                      <Image
+                        src={urlFor(product.image).width(400).height(225).url()}
+                        alt={product.image.alt || product.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        sizes="400px"
+                      />
+                    </Link>
+                  ) : (
+                    <Image
+                      src={urlFor(product.image).width(400).height(225).url()}
+                      alt={product.image.alt || product.title}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="400px"
+                    />
+                  )}
                 </div>
               )}
 
               {/* Product Content */}
               <div className="p-4">
-                <h4 className="text-base font-semibold text-white group-hover:text-zinc-100">
-                  {product.title}
-                </h4>
+                {product.slug ? (
+                  <Link href={`/project/${product.slug.current}`}>
+                    <h4 className="text-base font-semibold text-white group-hover:text-zinc-100">
+                      {product.title}
+                    </h4>
+                  </Link>
+                ) : (
+                  <h4 className="text-base font-semibold text-white group-hover:text-zinc-100">
+                    {product.title}
+                  </h4>
+                )}
                 <p className="mt-2 line-clamp-3 text-sm text-zinc-300">
                   {product.summary}
                 </p>
@@ -56,17 +76,13 @@ export default function ProductShowcase({ products }: ProductShowcaseProps) {
                     <span aria-hidden="true" className="text-sm">↗</span>
                   </a>
 
-                  {/* Optional Article Link */}
-                  {product.article_link && (
+                  {/* Learn More - internal product detail page */}
+                  {product.slug && (
                     <Link
-                      href={
-                        product.article_link._type === "project"
-                          ? `/projects/${product.article_link.slug.current}`
-                          : `/blog/${product.article_link.slug.current}`
-                      }
+                      href={`/project/${product.slug.current}`}
                       className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/20"
                     >
-                      Read Article →
+                      Learn More →
                     </Link>
                   )}
                 </div>

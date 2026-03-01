@@ -25,6 +25,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   `)
 
+  // Fetch all products
+  const productPages = await client.fetch(`
+    *[_type == "product" && defined(slug.current)] {
+      "slug": slug.current,
+      "updatedAt": _updatedAt
+    }
+  `)
+
   // Static pages
   const staticPages = [
     {
@@ -40,13 +48,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/projects/tech`,
+      url: `${baseUrl}/article/tech`,
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/projects/art`,
+      url: `${baseUrl}/article/art`,
       lastModified: new Date(),
       changeFrequency: 'daily' as const,
       priority: 0.9,
@@ -67,7 +75,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Project pages
   const projectPages = projects.map((project: any) => ({
-    url: `${baseUrl}/projects/${project.slug}`,
+    url: `${baseUrl}/article/${project.slug}`,
     lastModified: new Date(project.updatedAt || project.publishedDate),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
@@ -81,5 +89,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  return [...staticPages, ...projectPages, ...blogPages]
+  // Product detail pages
+  const productDetailPages = productPages.map((product: { slug: string; updatedAt: string }) => ({
+    url: `${baseUrl}/project/${product.slug}`,
+    lastModified: new Date(product.updatedAt),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  return [...staticPages, ...projectPages, ...blogPages, ...productDetailPages]
 }

@@ -234,7 +234,9 @@ const productFields = groq`
   _id,
   _type,
   title,
+  slug,
   summary,
+  description,
   "image": image {
     ${imageFragment}
   },
@@ -259,9 +261,15 @@ export const featuredProductsQuery = (limit: number = 3) => groq`
   }
 `;
 
+export const productBySlugQuery = (slug: string) => groq`
+  *[_type == "product" && slug.current == "${slug}"][0] {
+    ${productFields}
+  }
+`;
+
 // Utility Queries
 
-export const allSlugsQuery = (type: "project" | "blogPost") => groq`
+export const allSlugsQuery = (type: "project" | "blogPost" | "product") => groq`
   *[_type == "${type}"] {
     "slug": slug.current
   }

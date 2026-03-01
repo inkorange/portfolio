@@ -12,12 +12,50 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: {
+        source: "title",
+        maxLength: 96,
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "summary",
       title: "Summary",
       type: "text",
       description: "Brief summary of the product (up to 1000 characters)",
       rows: 6,
       validation: (Rule) => Rule.required().max(1000),
+    }),
+    defineField({
+      name: "description",
+      title: "Description",
+      type: "array",
+      of: [
+        {
+          type: "block",
+        },
+        {
+          type: "image",
+          options: {
+            hotspot: true,
+          },
+          fields: [
+            {
+              name: "alt",
+              type: "string",
+              title: "Alternative text",
+            },
+          ],
+        },
+        {
+          type: "table",
+          title: "Table",
+        },
+      ],
+      description: "Full product description with rich text",
     }),
     defineField({
       name: "image",
