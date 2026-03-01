@@ -71,7 +71,9 @@ export interface Product {
   _id: string;
   _type: "product";
   title: string;
+  slug: Slug;
   summary: string;
+  description?: PortableTextBlock[];
   image: ImageAsset;
   url_link: string;
   article_link?: {

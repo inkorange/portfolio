@@ -29,7 +29,7 @@ export default async function Footer() {
             <ul className="mt-2 space-y-2">
               <li>
                 <Link
-                  href="/projects"
+                  href="/article"
                   className="text-sm text-zinc-400 hover:text-zinc-50"
                 >
                   All Projects
@@ -37,7 +37,7 @@ export default async function Footer() {
               </li>
               <li>
                 <Link
-                  href="/projects/tech"
+                  href="/article/tech"
                   className="text-sm text-zinc-400 hover:text-zinc-50"
                 >
                   Technology
@@ -45,7 +45,7 @@ export default async function Footer() {
               </li>
               <li>
                 <Link
-                  href="/projects/art"
+                  href="/article/art"
                   className="text-sm text-zinc-400 hover:text-zinc-50"
                 >
                   Traditional Art

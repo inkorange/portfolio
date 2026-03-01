@@ -35,7 +35,7 @@ export default async function Home() {
                 return (
                   <FadeIn delay={100}>
                     <Link
-                      href={`/projects/${item.slug.current}`}
+                      href={`/article/${item.slug.current}`}
                       className="group mb-12 block overflow-hidden rounded-lg border border-zinc-800 bg-black/75 transition-all hover:shadow-lg"
                     >
                     {item.featuredImage && (
@@ -103,7 +103,7 @@ export default async function Home() {
                   {feed.recent.slice(1, 9).map((item: any, index: number) => (
                     <FadeIn key={item._id} delay={200 + index * 100}>
                       <Link
-                        href={`/projects/${item.slug.current}`}
+                        href={`/article/${item.slug.current}`}
                         className="group block overflow-hidden rounded-lg border border-zinc-800 bg-black/75 transition-all hover:shadow-md"
                       >
                       {item.featuredImage && (
@@ -162,7 +162,7 @@ export default async function Home() {
       {/* Quick Links */}
       <FadeIn delay={300} className="grid gap-6 md:grid-cols-2">
         <Link
-          href="/projects/tech"
+          href="/article/tech"
           className="group rounded-lg border border-zinc-800 p-6 transition-colors hover:bg-zinc-900"
         >
           <h3 className="text-lg font-semibold text-zinc-50">
@@ -174,7 +174,7 @@ export default async function Home() {
         </Link>
 
         <Link
-          href="/projects/art"
+          href="/article/art"
           className="group rounded-lg border border-zinc-800 p-6 transition-colors hover:bg-zinc-900"
         >
           <h3 className="text-lg font-semibold text-zinc-50">

@@ -33,21 +33,41 @@ export default async function FeaturedProjectsPage() {
                 {/* Product Image */}
                 {product.image && (
                   <div className="relative aspect-video w-full overflow-hidden bg-zinc-900">
-                    <Image
-                      src={urlFor(product.image).width(600).height(400).url()}
-                      alt={product.image.alt || product.title}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
+                    {product.slug ? (
+                      <Link href={`/project/${product.slug.current}`}>
+                        <Image
+                          src={urlFor(product.image).width(600).height(400).url()}
+                          alt={product.image.alt || product.title}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
+                      </Link>
+                    ) : (
+                      <Image
+                        src={urlFor(product.image).width(600).height(400).url()}
+                        alt={product.image.alt || product.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    )}
                   </div>
                 )}
 
                 {/* Product Content */}
                 <div className="flex flex-1 flex-col p-6">
-                  <h2 className="text-xl font-semibold text-white group-hover:text-zinc-100">
-                    {product.title}
-                  </h2>
+                  {product.slug ? (
+                    <Link href={`/project/${product.slug.current}`}>
+                      <h2 className="text-xl font-semibold text-white group-hover:text-zinc-100">
+                        {product.title}
+                      </h2>
+                    </Link>
+                  ) : (
+                    <h2 className="text-xl font-semibold text-white group-hover:text-zinc-100">
+                      {product.title}
+                    </h2>
+                  )}
 
                   {/* Full Summary - not truncated */}
                   <p className="mt-3 flex-1 text-sm leading-relaxed text-zinc-300">
@@ -67,17 +87,13 @@ export default async function FeaturedProjectsPage() {
                       <span aria-hidden="true" className="text-sm">↗</span>
                     </a>
 
-                    {/* Secondary CTA - Read Article (if exists) */}
-                    {product.article_link && (
+                    {/* Secondary CTA - Learn More (internal detail page) */}
+                    {product.slug && (
                       <Link
-                        href={
-                          product.article_link._type === "project"
-                            ? `/projects/${product.article_link.slug.current}`
-                            : `/blog/${product.article_link.slug.current}`
-                        }
+                        href={`/project/${product.slug.current}`}
                         className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/20"
                       >
-                        Read Article →
+                        Learn More →
                       </Link>
                     )}
                   </div>

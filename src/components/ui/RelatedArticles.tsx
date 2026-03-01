@@ -11,7 +11,7 @@ interface RelatedArticlesProps {
   basePath?: string;
 }
 
-export default function RelatedArticles({ articles, basePath = "/projects" }: RelatedArticlesProps) {
+export default function RelatedArticles({ articles, basePath = "/article" }: RelatedArticlesProps) {
   if (!articles || articles.length === 0) {
     return null;
   }

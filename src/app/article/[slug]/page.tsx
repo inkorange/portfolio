@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: Props) {
     : project.tags || [];
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chriswest.tech';
-  const canonicalUrl = `${siteUrl}/projects/${slug}`;
+  const canonicalUrl = `${siteUrl}/article/${slug}`;
 
   return {
     title: `${project.title} - ${project.type} Project | Chris West`,
@@ -96,7 +96,7 @@ export default async function ProjectPage({ params }: Props) {
   const products = await getFeaturedProducts(3);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chriswest.tech';
-  const canonicalUrl = `${siteUrl}/projects/${slug}`;
+  const canonicalUrl = `${siteUrl}/article/${slug}`;
 
   // Structured data for SEO
   const structuredData = {
@@ -236,8 +236,8 @@ export default async function ProjectPage({ params }: Props) {
                     <ArticleNavigation
                       previous={previousProject}
                       next={nextProject}
-                      basePath="/projects"
-                      viewAllPath={project.type === "UI" ? "/projects/tech" : "/projects/art"}
+                      basePath="/article"
+                      viewAllPath={project.type === "UI" ? "/article/tech" : "/article/art"}
                       viewAllLabel={project.type === "UI" ? "Technology" : "Traditional Art"}
                     />
 

@@ -47,7 +47,7 @@ export default async function UIProjectsPage() {
           {projects.map((project, index) => (
             <FadeIn key={project._id} delay={index * 100}>
               <Link
-                href={`/projects/${project.slug.current}`}
+                href={`/article/${project.slug.current}`}
                 className="group block overflow-hidden rounded-lg border border-zinc-800 bg-black/75 transition-all hover:shadow-md"
               >
               {project.featuredImage && (

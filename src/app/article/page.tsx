@@ -1,55 +1,53 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getProjectsByType } from "@/lib/sanity/fetch";
+import { getAllProjects } from "@/lib/sanity/fetch";
 import { urlFor } from "@/lib/sanity/image";
-import { calculateReadingTime, formatReadingTime } from "@/lib/utils/readingTime";
-import FadeIn from "@/components/ui/FadeIn";
 
 export const metadata = {
-  title: "Traditional Art Gallery | Chris West",
-  description: "Explore traditional art pieces by Chris West. View paintings, drawings, and other traditional media artwork with detailed descriptions.",
-  keywords: "traditional art, paintings, drawings, fine art, gallery, Chris West, art portfolio",
+  title: "All Projects | Chris West Portfolio",
+  description: "Browse all Technology and Traditional Art projects by Chris West. Explore software engineering tools, web applications, technology designs, and traditional art pieces.",
+  keywords: "projects, portfolio, technology, software development, traditional art, Chris West",
   openGraph: {
-    title: "Traditional Art Gallery",
-    description: "Traditional art portfolio and gallery by Chris West",
+    title: "All Projects - Chris West",
+    description: "Browse all Technology and Traditional Art projects",
     type: "website",
     siteName: "Chris West Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Traditional Art Gallery",
-    description: "Traditional art portfolio and gallery",
+    title: "All Projects - Chris West",
+    description: "Browse all Technology and Traditional Art projects",
   },
 };
 
-export default async function ArtProjectsPage() {
-  const projects = await getProjectsByType("Art");
+export default async function ProjectsPage() {
+  const projects = await getAllProjects();
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-      <FadeIn className="mb-12">
+      <div className="mb-12">
         <h1 className="text-4xl font-bold tracking-tight text-zinc-50">
-          Traditional Art
+          All Projects
         </h1>
         <p className="mt-4 text-lg text-zinc-400">
-          A gallery of traditional art pieces
+          A collection of my Technology and Traditional Art work
         </p>
-      </FadeIn>
+      </div>
 
       {projects.length === 0 ? (
         <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-12 text-center">
           <p className="text-zinc-400">
-            No art projects yet. Add some content in your Sanity CMS!
+            No projects yet. Add some content in your Sanity CMS!
           </p>
         </div>
       ) : (
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project, index) => (
-            <FadeIn key={project._id} delay={index * 100}>
-              <Link
-                href={`/projects/${project.slug.current}`}
-                className="group block overflow-hidden rounded-lg border border-zinc-800 bg-black/75 transition-all hover:shadow-md"
-              >
+          {projects.map((project) => (
+            <Link
+              key={project._id}
+              href={`/article/${project.slug.current}`}
+              className="group block overflow-hidden rounded-lg border border-zinc-800 bg-black/75 transition-all hover:shadow-md"
+            >
               {project.featuredImage && (
                 <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-900">
                   <Image
@@ -62,10 +60,14 @@ export default async function ArtProjectsPage() {
                 </div>
               )}
               <div className="p-6">
-                <div className="flex items-center gap-2 text-xs text-zinc-400 mb-2">
-                  <span>{formatReadingTime(calculateReadingTime(project.description))}</span>
-                </div>
-                <h3 className="text-xl font-semibold text-white">
+                <span className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
+                  project.type === "UI"
+                    ? "bg-blue-500/20 text-blue-300"
+                    : "bg-purple-500/20 text-purple-300"
+                }`}>
+                  {project.type === "UI" ? "Tech" : project.type}
+                </span>
+                <h3 className="mt-2 text-xl font-semibold text-white">
                   {project.title}
                 </h3>
                 <p className="mt-2 line-clamp-2 text-sm text-zinc-300">
@@ -85,7 +87,6 @@ export default async function ArtProjectsPage() {
                 )}
               </div>
             </Link>
-            </FadeIn>
           ))}
         </div>
       )}
