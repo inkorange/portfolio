@@ -1,8 +1,8 @@
 import { PortableText as PortableTextReact } from "@portabletext/react";
-import Image from "next/image";
 import { urlFor } from "@/lib/sanity/image";
 import type { ImageAsset } from "@/lib/types";
 import GalleryImage from "./GalleryImage";
+import CodeBlock from "./CodeBlock";
 
 const createComponents = (galleryImages?: ImageAsset[]) => {
   let paragraphCount = 0;
@@ -13,27 +13,18 @@ const createComponents = (galleryImages?: ImageAsset[]) => {
       if (!value?.asset) return null;
       return (
         <div className="my-8">
-          <Image
+          <GalleryImage
             src={urlFor(value).width(800).url()}
             alt={value.alt || "Image"}
             width={800}
             height={500}
-            className="rounded-lg"
+            sizes="(max-width: 768px) 100vw, 800px"
           />
-          {value.caption && (
-            <p className="mt-2 text-center text-sm text-zinc-600 dark:text-zinc-400">
-              {value.caption}
-            </p>
-          )}
         </div>
       );
     },
     code: ({ value }: any) => {
-      return (
-        <pre className="overflow-x-auto rounded-lg bg-zinc-900 p-4 text-sm">
-          <code className="text-zinc-100">{value.code}</code>
-        </pre>
-      );
+      return <CodeBlock code={value.code} language={value.language} />;
     },
     table: ({ value }: any) => {
       if (!value?.rows) return null;
