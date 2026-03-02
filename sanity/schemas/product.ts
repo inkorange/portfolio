@@ -51,6 +51,9 @@ export default defineType({
           ],
         },
         {
+          type: "code",
+        },
+        {
           type: "table",
           title: "Table",
         },
