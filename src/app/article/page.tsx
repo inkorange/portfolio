@@ -7,11 +7,15 @@ export const metadata = {
   title: "All Projects | Chris West Portfolio",
   description: "Browse all Technology and Traditional Art projects by Chris West. Explore software engineering tools, web applications, technology designs, and traditional art pieces.",
   keywords: "projects, portfolio, technology, software development, traditional art, Chris West",
+  alternates: {
+    canonical: "/article",
+  },
   openGraph: {
     title: "All Projects - Chris West",
     description: "Browse all Technology and Traditional Art projects",
     type: "website",
     siteName: "Chris West Portfolio",
+    url: "/article",
   },
   twitter: {
     card: "summary_large_image",

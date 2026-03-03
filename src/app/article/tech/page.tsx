@@ -9,11 +9,15 @@ export const metadata = {
   title: "Technology Projects | Chris West",
   description: "Explore software engineering tools, web applications, and technology designs by Chris West. View detailed case studies and technical implementations.",
   keywords: "technology, software engineering, web development, front-end development, Chris West",
+  alternates: {
+    canonical: "/article/tech",
+  },
   openGraph: {
     title: "Technology Projects",
     description: "Software engineering tools and technology designs by Chris West",
     type: "website",
     siteName: "Chris West Portfolio",
+    url: "/article/tech",
   },
   twitter: {
     card: "summary_large_image",
