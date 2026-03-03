@@ -137,11 +137,7 @@ export default async function ProductPage({ params }: Props) {
                 </a>
                 {product.article_link && (
                   <a
-                    href={
-                      product.article_link._type === "project"
-                        ? `/article/${product.article_link.slug.current}`
-                        : `/blog/${product.article_link.slug.current}`
-                    }
+                    href={`/article/${product.article_link.slug.current}`}
                     className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/20"
                   >
                     Related: {product.article_link.title} →

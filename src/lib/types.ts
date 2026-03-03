@@ -37,21 +37,6 @@ export interface Project {
   githubLink?: string;
 }
 
-export interface BlogPost {
-  _id: string;
-  _type: "blogPost";
-  title: string;
-  slug: Slug;
-  excerpt: string;
-  author: string;
-  keywords?: string;
-  content: PortableTextBlock[]; // Rich text content
-  coverImage?: ImageAsset;
-  publishedDate: string;
-  tags: string[];
-  featured: boolean;
-}
-
 export interface SocialLink {
   platform: string;
   url: string;
@@ -77,7 +62,7 @@ export interface Product {
   image: ImageAsset;
   url_link: string;
   article_link?: {
-    _type: "blogPost" | "project";
+    _type: "project";
     _id: string;
     title: string;
     slug: Slug;
@@ -85,8 +70,8 @@ export interface Product {
 }
 
 // Combined type for homepage feed
-export type FeedItem = (Project | BlogPost) & {
-  itemType: "project" | "blog";
+export type FeedItem = Project & {
+  itemType: "project";
 };
 
 // Filter types
@@ -98,7 +83,3 @@ export interface ProjectsResponse {
   total: number;
 }
 
-export interface BlogPostsResponse {
-  posts: BlogPost[];
-  total: number;
-}

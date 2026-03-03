@@ -87,8 +87,8 @@ export default defineType({
       name: "article_link",
       title: "Related Article",
       type: "reference",
-      to: [{ type: "blogPost" }, { type: "project" }],
-      description: "Optional link to a related article (blog post or project) in your portfolio",
+      to: [{ type: "project" }],
+      description: "Optional link to a related project article in your portfolio",
     }),
   ],
   preview: {

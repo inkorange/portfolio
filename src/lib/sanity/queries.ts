@@ -39,23 +39,6 @@ const projectFields = groq`
   githubLink
 `;
 
-const blogPostFields = groq`
-  _id,
-  _type,
-  title,
-  slug,
-  excerpt,
-  author,
-  keywords,
-  content,
-  "coverImage": coverImage {
-    ${imageFragment}
-  },
-  publishedDate,
-  tags,
-  featured
-`;
-
 // Project Queries
 
 export const allProjectsQuery = groq`
@@ -103,54 +86,6 @@ export const previousProjectQuery = (publishedDate: string, type: string) => gro
     "featuredImage": featuredImage {
       ${imageFragment}
     }
-  }
-`;
-
-// Blog Post Queries
-
-export const allBlogPostsQuery = groq`
-  *[_type == "blogPost"] | order(publishedDate desc) {
-    ${blogPostFields}
-  }
-`;
-
-export const featuredBlogPostsQuery = groq`
-  *[_type == "blogPost" && featured == true] | order(publishedDate desc) {
-    ${blogPostFields}
-  }
-`;
-
-export const blogPostBySlugQuery = (slug: string) => groq`
-  *[_type == "blogPost" && slug.current == "${slug}"][0] {
-    ${blogPostFields}
-  }
-`;
-
-export const nextBlogPostQuery = (publishedDate: string) => groq`
-  *[_type == "blogPost" && publishedDate < "${publishedDate}"] | order(publishedDate desc) [0] {
-    _id,
-    title,
-    slug,
-    "coverImage": coverImage {
-      ${imageFragment}
-    }
-  }
-`;
-
-export const previousBlogPostQuery = (publishedDate: string) => groq`
-  *[_type == "blogPost" && publishedDate > "${publishedDate}"] | order(publishedDate asc) [0] {
-    _id,
-    title,
-    slug,
-    "coverImage": coverImage {
-      ${imageFragment}
-    }
-  }
-`;
-
-export const recentBlogPostsQuery = (limit: number = 3) => groq`
-  *[_type == "blogPost"] | order(publishedDate desc) [0...${limit}] {
-    ${blogPostFields}
   }
 `;
 
@@ -269,7 +204,7 @@ export const productBySlugQuery = (slug: string) => groq`
 
 // Utility Queries
 
-export const allSlugsQuery = (type: "project" | "blogPost" | "product") => groq`
+export const allSlugsQuery = (type: "project" | "product") => groq`
   *[_type == "${type}"] {
     "slug": slug.current
   }
