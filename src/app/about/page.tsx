@@ -6,7 +6,24 @@ import SocialIcon from "@/components/ui/SocialIcon";
 
 export const metadata = {
   title: "About - Chris West",
-  description: "Learn more about Chris West",
+  description: "Learn more about Chris West — a seasoned tech leader with a passion for software engineering and traditional art.",
+  keywords: "Chris West, about, software engineer, tech leader, traditional art, portfolio",
+  authors: [{ name: "Chris West" }],
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About - Chris West",
+    description: "Learn more about Chris West — a seasoned tech leader with a passion for software engineering and traditional art.",
+    type: "profile",
+    siteName: "Chris West Portfolio",
+    url: "/about",
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "About - Chris West",
+    description: "Learn more about Chris West — a seasoned tech leader with a passion for software engineering and traditional art.",
+  },
 };
 
 export default async function AboutPage() {

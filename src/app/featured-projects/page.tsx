@@ -7,6 +7,21 @@ import FadeIn from "@/components/ui/FadeIn";
 export const metadata = {
   title: "Featured Projects | Chris West",
   description: "Explore my featured projects and web applications",
+  alternates: {
+    canonical: "/featured-projects",
+  },
+  openGraph: {
+    title: "Featured Projects - Chris West",
+    description: "A showcase of web applications and digital projects",
+    type: "website",
+    siteName: "Chris West Portfolio",
+    url: "/featured-projects",
+  },
+  twitter: {
+    card: "summary_large_image" as const,
+    title: "Featured Projects - Chris West",
+    description: "A showcase of web applications and digital projects",
+  },
 };
 
 export default async function FeaturedProjectsPage() {

@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: Props) {
       title: project.title,
       description: project.summary,
       images: imageUrl ? [imageUrl] : [],
-      creator: "@yourhandle",
+      creator: "@chriswest_tech",
     },
   };
 }

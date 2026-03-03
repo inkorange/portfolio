@@ -9,11 +9,15 @@ export const metadata = {
   title: "Traditional Art Gallery | Chris West",
   description: "Explore traditional art pieces by Chris West. View paintings, drawings, and other traditional media artwork with detailed descriptions.",
   keywords: "traditional art, paintings, drawings, fine art, gallery, Chris West, art portfolio",
+  alternates: {
+    canonical: "/article/art",
+  },
   openGraph: {
     title: "Traditional Art Gallery",
     description: "Traditional art portfolio and gallery by Chris West",
     type: "website",
     siteName: "Chris West Portfolio",
+    url: "/article/art",
   },
   twitter: {
     card: "summary_large_image",

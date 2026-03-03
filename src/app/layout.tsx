@@ -35,18 +35,20 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
     shortcut: "/favicon.ico",
   },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://chriswest.tech"),
   openGraph: {
     title: "Chris West - Engineering & Art Portfolio",
     description: "Portfolio showcasing Technology projects and traditional art by Chris West",
     type: "website",
     siteName: "Chris West Portfolio",
     locale: "en_US",
+    url: "/",
   },
   twitter: {
     card: "summary_large_image",
     title: "Chris West - Engineering & Art Portfolio",
     description: "Portfolio showcasing Technology projects and traditional art",
-    creator: "@yourhandle",
+    creator: "@chriswest_tech",
   },
   robots: {
     index: true,

@@ -33,6 +33,8 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: `${product.title} | Chris West`,
     description: product.summary,
+    keywords: product.title,
+    authors: [{ name: "Chris West" }],
     alternates: { canonical: canonicalUrl },
     openGraph: {
       title: product.title,
