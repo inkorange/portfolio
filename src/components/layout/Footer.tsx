@@ -91,8 +91,11 @@ export default async function Footer() {
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="mt-8 border-t border-zinc-800 pt-8">
+        {/* Affiliate Disclosure & Copyright */}
+        <div className="mt-8 border-t border-zinc-800 pt-8 space-y-2">
+          <p className="text-xs text-zinc-500">
+            As an Amazon Associate I earn from qualifying purchases. Some links on this site are affiliate links, meaning I may earn a small commission at no extra cost to you.
+          </p>
           <p className="text-sm text-zinc-400">
             &copy; {currentYear} Chris West. All rights reserved.
           </p>

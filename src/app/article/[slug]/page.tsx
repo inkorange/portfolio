@@ -127,18 +127,15 @@ export default async function ProjectPage({ params }: Props) {
         }),
         author: {
           "@type": "Person",
+          "@id": `${siteUrl}/about#person`,
           name: authorName,
-          url: siteUrl,
-          sameAs: [
-            "https://github.com/christopherweber",
-            "https://x.com/chriswest_tech",
-          ],
+          url: `${siteUrl}/about`,
         },
         publisher: {
           "@type": "Person",
+          "@id": `${siteUrl}/about#person`,
           name: authorName,
-          url: siteUrl,
-          ...(imageUrl && { image: imageUrl }),
+          url: `${siteUrl}/about`,
         },
         keywords: project.keywords || project.tags?.join(", "),
         articleSection: project.type === "UI" ? "Technology" : "Traditional Art",

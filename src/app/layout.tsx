@@ -78,13 +78,9 @@ const siteStructuredData = {
     },
     {
       "@type": "Person",
-      "@id": `${siteUrl}/#person`,
+      "@id": `${siteUrl}/about#person`,
       name: "Chris West",
-      url: siteUrl,
-      sameAs: [
-        "https://github.com/christopherweber",
-        "https://x.com/chriswest_tech",
-      ],
+      url: `${siteUrl}/about`,
       jobTitle: "Software Engineer",
       knowsAbout: ["Software Engineering", "Web Development", "Traditional Art"],
     },

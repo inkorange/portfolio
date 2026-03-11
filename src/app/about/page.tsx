@@ -4,6 +4,8 @@ import { urlFor } from "@/lib/sanity/image";
 import PortableText from "@/components/ui/PortableText";
 import SocialIcon from "@/components/ui/SocialIcon";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chriswest.tech";
+
 export const metadata = {
   title: "About - Chris West",
   description: "Learn more about Chris West — a seasoned tech leader with a passion for software engineering and traditional art.",
@@ -16,6 +18,8 @@ export const metadata = {
     title: "About - Chris West",
     description: "Learn more about Chris West — a seasoned tech leader with a passion for software engineering and traditional art.",
     type: "profile",
+    firstName: "Chris",
+    lastName: "West",
     siteName: "Chris West Portfolio",
     url: "/about",
   },
@@ -29,8 +33,58 @@ export const metadata = {
 export default async function AboutPage() {
   const about = await getAbout();
 
+  const profileImageUrl = about?.profileImage
+    ? urlFor(about.profileImage).width(400).height(400).url()
+    : undefined;
+
+  // Build sameAs from CMS social links
+  const sameAsLinks = about?.socialLinks
+    ?.map((link) => link.url)
+    .filter(Boolean) || [];
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfilePage",
+        "@id": `${siteUrl}/about`,
+        url: `${siteUrl}/about`,
+        name: "About Chris West",
+        mainEntity: { "@id": `${siteUrl}/about#person` },
+        isPartOf: { "@id": `${siteUrl}/#website` },
+      },
+      {
+        "@type": "Person",
+        "@id": `${siteUrl}/about#person`,
+        name: "Chris West",
+        url: siteUrl,
+        ...(profileImageUrl && {
+          image: {
+            "@type": "ImageObject",
+            url: profileImageUrl,
+            width: 400,
+            height: 400,
+          },
+        }),
+        description: "Seasoned tech leader with a passion for software engineering and traditional art.",
+        jobTitle: "Software Engineer",
+        knowsAbout: [
+          "Software Engineering",
+          "Web Development",
+          "Traditional Art",
+          ...(about?.skills || []),
+        ],
+        sameAs: sameAsLinks,
+      },
+    ],
+  };
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <div className="mb-12">
         <h1 className="text-4xl font-bold tracking-tight text-white">
           About
