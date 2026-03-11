@@ -53,12 +53,13 @@ const createComponents = (galleryImages?: ImageAsset[]) => {
   },
   marks: {
     link: ({ children, value }: any) => {
-      const rel = !value.href.startsWith("/") ? "noreferrer noopener" : undefined;
+      const href = value?.href || "#";
+      const isInternal = href.startsWith("/");
       return (
         <a
-          href={value.href}
-          rel={rel}
-          target={value.href.startsWith("/") ? "_self" : "_blank"}
+          href={href}
+          rel={isInternal ? undefined : "noreferrer noopener"}
+          target={isInternal ? "_self" : "_blank"}
           className="text-zinc-900 underline hover:text-zinc-600 dark:text-zinc-50 dark:hover:text-zinc-300"
         >
           {children}
