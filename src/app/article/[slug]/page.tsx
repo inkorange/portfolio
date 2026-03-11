@@ -98,23 +98,76 @@ export default async function ProjectPage({ params }: Props) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chriswest.tech';
   const canonicalUrl = `${siteUrl}/article/${slug}`;
 
-  // Structured data for SEO
+  const imageUrl = project.featuredImage
+    ? urlFor(project.featuredImage).width(1200).height(630).url()
+    : undefined;
+
+  const authorName = project.author || "Chris West";
+
+  // Rich structured data for SEO
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: project.title,
-    description: project.summary,
-    image: project.featuredImage ? urlFor(project.featuredImage).width(1200).height(630).url() : undefined,
-    datePublished: project.publishedDate,
-    author: {
-      "@type": "Person",
-      name: project.author || "Chris West",
-    },
-    publisher: {
-      "@type": "Person",
-      name: project.author || "Chris West",
-    },
-    keywords: project.keywords || project.tags?.join(", "),
+    "@graph": [
+      {
+        "@type": "Article",
+        "@id": `${canonicalUrl}#article`,
+        headline: project.title,
+        description: project.summary,
+        url: canonicalUrl,
+        mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+        datePublished: project.publishedDate,
+        dateModified: project.publishedDate,
+        ...(imageUrl && {
+          image: {
+            "@type": "ImageObject",
+            url: imageUrl,
+            width: 1200,
+            height: 630,
+          },
+        }),
+        author: {
+          "@type": "Person",
+          name: authorName,
+          url: siteUrl,
+          sameAs: [
+            "https://github.com/christopherweber",
+            "https://x.com/chriswest_tech",
+          ],
+        },
+        publisher: {
+          "@type": "Person",
+          name: authorName,
+          url: siteUrl,
+          ...(imageUrl && { image: imageUrl }),
+        },
+        keywords: project.keywords || project.tags?.join(", "),
+        articleSection: project.type === "UI" ? "Technology" : "Traditional Art",
+        inLanguage: "en-US",
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: siteUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: project.type === "UI" ? "Technology" : "Traditional Art",
+            item: `${siteUrl}/article/${project.type === "UI" ? "tech" : "art"}`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: project.title,
+            item: canonicalUrl,
+          },
+        ],
+      },
+    ],
   };
 
   return (

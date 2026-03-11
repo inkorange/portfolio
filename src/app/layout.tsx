@@ -63,6 +63,34 @@ export const metadata: Metadata = {
   },
 };
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://chriswest.tech";
+
+const siteStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: siteUrl,
+      name: "Chris West Portfolio",
+      description: "Portfolio showcasing Technology projects and traditional art by Chris West.",
+      inLanguage: "en-US",
+    },
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#person`,
+      name: "Chris West",
+      url: siteUrl,
+      sameAs: [
+        "https://github.com/christopherweber",
+        "https://x.com/chriswest_tech",
+      ],
+      jobTitle: "Software Engineer",
+      knowsAbout: ["Software Engineering", "Web Development", "Traditional Art"],
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -73,6 +101,10 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://cdn.sanity.io" />
         <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteStructuredData) }}
+        />
       </head>
       <body
         className={`${notoSansDisplay.variable} ${robotoMono.variable} font-sans antialiased`}

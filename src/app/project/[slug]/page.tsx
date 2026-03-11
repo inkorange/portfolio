@@ -66,13 +66,57 @@ export default async function ProductPage({ params }: Props) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://chriswest.tech';
   const canonicalUrl = `${siteUrl}/project/${slug}`;
 
+  const imageUrl = product.image
+    ? urlFor(product.image).width(1200).height(630).url()
+    : undefined;
+
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.title,
-    description: product.summary,
-    image: product.image ? urlFor(product.image).width(1200).height(630).url() : undefined,
-    url: product.url_link,
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        name: product.title,
+        description: product.summary,
+        url: product.url_link,
+        ...(imageUrl && {
+          image: {
+            "@type": "ImageObject",
+            url: imageUrl,
+            width: 1200,
+            height: 630,
+          },
+        }),
+        applicationCategory: "WebApplication",
+        author: {
+          "@type": "Person",
+          name: "Chris West",
+          url: siteUrl,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: siteUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Projects",
+            item: `${siteUrl}/project`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: product.title,
+            item: canonicalUrl,
+          },
+        ],
+      },
+    ],
   };
 
   return (
