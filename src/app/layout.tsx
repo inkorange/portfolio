@@ -97,6 +97,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://cdn.sanity.io" />
         <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+        <link rel="alternate" type="application/rss+xml" title="Chris West Portfolio" href="/feed.xml" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteStructuredData) }}
